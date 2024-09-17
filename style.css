@@ -1,0 +1,32 @@
+#container {
+  font-family: "curier new", monospace;
+}
+
+.row {
+  overflow: hidden;
+}
+
+.square {
+  float: left;
+  width: 1em;
+  text-align: center;
+  border-color: white;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.w {
+  background-color: blue;
+}
+
+.d {
+  background-color: lightblue;
+}
+
+.s {
+  color: white;
+}
+
+.v {
+  background-color: red;
+}
