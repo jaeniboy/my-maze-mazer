@@ -3,8 +3,8 @@
 <html>
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <link rel="stylesheet" href="styles/style.css"/>
-  <script src="./scripts/script.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="./script.js"></script>
   <title>Maze</title>
 </head>
 <body>
@@ -15,17 +15,15 @@
   <div id="container"></div>
 </body>
 <script>
-const maze = new Maze(11,11)
+const maze = new Maze(20,7)
 
 const container = document.getElementById("container")
 container.appendChild(maze.drawMaze())//createMaze(11,11))
 document.getElementById("step").onclick = function(){
-  !maze.activeField ? maze.setInitialField() : maze.makeStep()
-  console.log("neighbours", maze.checkNeighbours(maze.activeField))
-  console.log("active", maze.activeField)
+  // !maze.activeField ? maze.setInitialField() : maze.makeStep()
+  maze.makeStep()
   container.innerHTML = ""
   container.appendChild(maze.drawMaze())
 }
-maze.logVariables()
 </script>
 </html>
