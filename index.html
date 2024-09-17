@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="styles/style.css"/>
+  <script src="./scripts/script.js"></script>
+  <title>Maze</title>
+</head>
+<body>
+  <h1>
+    A-Maze-Ing!
+  </h1>
+  <button id="step" style="margin:0px 0px 30px 30px">Step!</button>
+  <div id="container"></div>
+</body>
+<script>
+const maze = new Maze(11,11)
+
+const container = document.getElementById("container")
+container.appendChild(maze.drawMaze())//createMaze(11,11))
+document.getElementById("step").onclick = function(){
+  !maze.activeField ? maze.setInitialField() : maze.makeStep()
+  console.log("neighbours", maze.checkNeighbours(maze.activeField))
+  console.log("active", maze.activeField)
+  container.innerHTML = ""
+  container.appendChild(maze.drawMaze())
+}
+maze.logVariables()
+</script>
+</html>
