@@ -85,7 +85,8 @@ class Maze {
     makeStep() {
         if (this.countdown === 0) {
             this.buildWalls()
-        } else {
+            this.countdown--
+        } else if (this.countdown > 0) {
             if (!this.activeField) {
                 this.setInitialField()
             } else {
@@ -111,7 +112,22 @@ class Maze {
 
     buildWalls() {
         this.grid = this.grid.map(row=>row.map(d=>d==="d"?"w":d))
-        console.log(this.grid)
+        this.setExitPoints()
+    }
+
+    setExitPoints() {
+        const top = this.grid[0].map((d,i)=>{return this.grid[1][i] === "v" ? [0,i] : []}).filter(d=>d.length > 0)
+        const bottom = this.grid[this.dimy-1].map((d,i)=>{return this.grid[this.dimy-2][i] === "v" ? [this.dimy-1,i] : []}).filter(d=>d.length > 0)
+        
+        const topExit = this.getRand(top)
+        const bottomExit = this.getRand(bottom)
+
+        this.grid[topExit[0]][topExit[1]] = "v"
+        this.grid[bottomExit[0]][bottomExit[1]] = "v"
+        
+        console.log(top)
+        console.log(bottom)
+        
     }
     
     drawMaze() {
