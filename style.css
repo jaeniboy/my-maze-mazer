@@ -13,6 +13,7 @@
   border-color: white;
   border-style: solid;
   border-width: 1px;
+  color: rgba(0,0,0,0)
 }
 
 .w {
@@ -23,12 +24,16 @@
   background-color: black;
 }
 
-.s {
-  color: black;
-  background-color: black;
+.s, .d, .w {
+  /* color: black; */
+  background-color: lightgray;
 }
 
 .v {
   background-color: white;
-  color: white;
+  /* color: white; */
+}
+
+.hovered {
+  background-color: orange;
 }

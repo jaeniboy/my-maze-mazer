@@ -11,6 +11,7 @@ class Maze {
         this.grid = this.createGrid()
         this.activeField 
         this.path = []
+        this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
     }
     
@@ -99,7 +100,6 @@ class Maze {
                     this.activeField = nextField
                     this.path.push(nextField)
                     this.countdown--
-                    console.log("countdown",this.countdown)
                 } else {
                     this.activeField = this.path.pop()
                     this.makeStep()
@@ -125,22 +125,43 @@ class Maze {
         this.grid[topExit[0]][topExit[1]] = "v"
         this.grid[bottomExit[0]][bottomExit[1]] = "v"
         
-        console.log(top)
-        console.log(bottom)
-        
+        this.playerPath.push(topExit)        
     }
     
     drawMaze() {
         
         const elem = document.createElement("div")
     
-        for (let row of this.grid) {
+        for (let [rowindex,row] of this.grid.entries()) {
             let rowDiv = document.createElement("div")
             rowDiv.className = "row"
-            for (let value of row) {
+            for (let [colindex, value] of row.entries()) {
                 let square = document.createElement("div")
                 square.innerText = value
                 square.className = value + " square"
+                square.setAttribute("data-y", rowindex)
+                square.setAttribute("data-x", colindex)
+                square.onmouseover = (e) => {
+                    // PlayerMode here 
+                    const val = e.target.innerText
+                    const coords = [Number(e.target.getAttribute("data-y")),Number(e.target.getAttribute("data-x"))]
+                    const neighbours = [
+                        [coords[0]-1,coords[1]],
+                        [coords[0],coords[1]+1],
+                        [coords[0]+1,coords[1]],
+                        [coords[0],coords[1]-1]
+                    ]
+                    const lastVisited = this.playerPath.slice(-1)[0]
+                    if (this.countdown === -1 && val === "v") { // check if game mode and not wall
+                        if (
+                            JSON.stringify(neighbours).includes(JSON.stringify(lastVisited)) || // check if a neighbour was currently hovered
+                            JSON.stringify(coords) === JSON.stringify(lastVisited)
+                        ) {
+                            e.target.classList.add("hovered")
+                            this.playerPath.push(coords)
+                        }
+                    }
+                }
                 rowDiv.appendChild(square)
             }
         
