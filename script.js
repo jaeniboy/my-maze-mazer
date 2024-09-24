@@ -1,6 +1,6 @@
 class Maze {
-    
-    constructor(dimx,dimy) {
+
+    constructor(dimx,dimy,container) {
         this.dimx = dimx
         if (this.dimx % 2 === 0) {this.dimx = this.dimx + 1}
         this.dimy = dimy 
@@ -13,10 +13,14 @@ class Maze {
         this.path = []
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
+        this.container = container
+        this.animationID
+        this.random = new Math.seedrandom("1234")
     }
-    
+
     getRand(arr) {
-        return arr[Math.floor(Math.random()*arr.length)]
+        return arr[Math.floor(this.random()*arr.length)]
+        // return arr[Math.floor(Math.random()*arr.length)]
     }
 
     getDoorField(coord1, coord2) {
@@ -25,10 +29,10 @@ class Maze {
 
         Math.abs(coord1[0] - coord2[0]) !==0 && y++
         Math.abs(coord1[1] - coord2[1]) !==0 && x++
-        
+
         return [y,x]
     }
-    
+
     createRow(firstSign,secondSign) {
         const arr = new Array(this.dimx).fill(secondSign)
         for (let i =0; i<this.dimx;i++) {
@@ -38,7 +42,7 @@ class Maze {
         }
        return arr
     }
-    
+
     createGrid() {
         const arrY = new Array(this.dimy).fill([])
         for (let i = 0; i < this.dimy; i++) {
@@ -50,7 +54,7 @@ class Maze {
         }
         return arrY
     }
-    
+
     setInitialField() {
         let indices = []
         for (let i =0; i<this.grid.length;i++) {
@@ -61,16 +65,16 @@ class Maze {
                 }
             }
         }
-        
+
         const index = this.getRand(indices)
         this.activeField = index
         this.path.push(index)
         this.grid[index[0]][index[1]] = "v"
         this.countdown--
-        
+
         return this.grid
     }
-    
+
     checkNeighbours(coords, dimx, dimy) {
         const neighbours = []
 
@@ -79,14 +83,15 @@ class Maze {
         coords[1]+2 < dimx && neighbours.push([coords[0],coords[1]+2])
         coords[0]+2 < dimy && neighbours.push([coords[0]+2,coords[1]])
         coords[1]-2 >= 0 && neighbours.push([coords[0],coords[1]-2])
-        
+
         return neighbours.filter((d) => {return this.grid[d[0]][d[1]] === "s"})
     }
-    
+
     makeStep() {
         if (this.countdown === 0) {
             this.buildWalls()
             this.countdown--
+            //clearInterval(this.AnimationID)
         } else if (this.countdown > 0) {
             if (!this.activeField) {
                 this.setInitialField()
@@ -118,20 +123,20 @@ class Maze {
     setExitPoints() {
         const top = this.grid[0].map((d,i)=>{return this.grid[1][i] === "v" ? [0,i] : []}).filter(d=>d.length > 0)
         const bottom = this.grid[this.dimy-1].map((d,i)=>{return this.grid[this.dimy-2][i] === "v" ? [this.dimy-1,i] : []}).filter(d=>d.length > 0)
-        
+
         const topExit = this.getRand(top)
         const bottomExit = this.getRand(bottom)
 
         this.grid[topExit[0]][topExit[1]] = "v"
         this.grid[bottomExit[0]][bottomExit[1]] = "v"
-        
+
         this.playerPath.push(topExit)        
     }
-    
+
     drawMaze() {
-        
+
         const elem = document.createElement("div")
-    
+
         for (let [rowindex,row] of this.grid.entries()) {
             let rowDiv = document.createElement("div")
             rowDiv.className = "row"
@@ -141,7 +146,7 @@ class Maze {
                 square.className = value + " square"
                 square.setAttribute("data-y", rowindex)
                 square.setAttribute("data-x", colindex)
-                square.onmouseover = (e) => {
+                square.ontouchmove = (e) => {
                     // PlayerMode here 
                     const val = e.target.innerText
                     const coords = [Number(e.target.getAttribute("data-y")),Number(e.target.getAttribute("data-x"))]
@@ -164,10 +169,29 @@ class Maze {
                 }
                 rowDiv.appendChild(square)
             }
-        
+
             elem.appendChild(rowDiv)
         }
         return elem
     }
     
-}
+    addToContainer() {
+        this.container.innerHTML = ""
+        this.container.appendChild(this.drawMaze())
+    }
+    
+    animate() {
+        if (this.countdown < 0) {
+            alert("done")
+        } else {
+        setTimeout(()=>{
+            //!this.activeField ? this.setInitialField() : this.makeStep()
+            this.makeStep()
+            console.log("running")
+            this.addToContainer()
+            this.animate()
+        },30)
+        }
+    }
+
+                    }
