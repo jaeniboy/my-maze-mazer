@@ -16,11 +16,12 @@ class Maze {
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
         this.container = container
         this.animationID
-        this.animationInterval = 10
+        this.random = new Math.seedrandom("1234")
     }
 
     getRand(arr) {
-        return arr[Math.floor(Math.random()*arr.length)]
+        return arr[Math.floor(this.random()*arr.length)]
+        // return arr[Math.floor(Math.random()*arr.length)]
     }
 
     getDoorField(coord1, coord2) {
