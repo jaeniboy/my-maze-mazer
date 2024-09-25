@@ -14,22 +14,22 @@
   </h1>
   <button id="create" style="margin:0px 0px 30px 30px">Step!</button>
   <div id="container"></div>
+  <div id="line-y-l" class="line"></div>
+  <div id="line-y-r" class="line"></div>
+  <div id="line-x-t" class="line"></div>
+  <div id="line-x-b" class="line"></div>
 </body>
 <script>
-//const maze = new Maze(20,20)
 
 const container = document.getElementById("container")
 //const maze = new Maze(7,7, container)
 const maze = new Maze(20,20, container)
 maze.addToContainer()
 
-//container.appendChild(maze.drawMaze())//createMaze(11,11))
 document.getElementById("create").onclick = function(){
-  //!maze.activeField ? maze.setInitialField() : maze.makeStep()
-  //container.innerHTML = ""
-  //container.appendChild(maze.drawMaze())
   maze.animate()
 }
-//maze.logVariables()
+
+//document.onmousemove = function (e) {console.log(e.clientX,e.clientY)}
 </script>
 </html>

@@ -15,13 +15,12 @@ class Maze {
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
         this.container = container
-        this.animationID
         this.random = new Math.seedrandom("1234")
+        this.animationInterval = 1
     }
 
     getRand(arr) {
         return arr[Math.floor(this.random()*arr.length)]
-        // return arr[Math.floor(Math.random()*arr.length)]
     }
 
     getDoorField(coord1, coord2) {
@@ -92,7 +91,6 @@ class Maze {
         if (this.countdown === 0) {
             this.buildWalls()
             this.countdown--
-            //clearInterval(this.AnimationID)
         } else if (this.countdown > 0) {
             if (!this.activeField) {
                 this.setInitialField()
@@ -122,6 +120,8 @@ class Maze {
     }
 
     setExitPoints() {
+
+        // check which walls are next to paths
         const top = this.grid[0].map((d,i)=>{return this.grid[1][i] === "v" ? [0,i] : []}).filter(d=>d.length > 0)
         const bottom = this.grid[this.dimy-1].map((d,i)=>{return this.grid[this.dimy-2][i] === "v" ? [this.dimy-1,i] : []}).filter(d=>d.length > 0)
 
@@ -132,7 +132,8 @@ class Maze {
         this.grid[bottomExit[0]][bottomExit[1]] = "v"
         
         this.entryField = topExit
-        // this.playerPath.push(topExit)        
+        // this.playerPath.push(topExit)
+        console.log("done")       
     }
 
     drawMaze() {
@@ -161,10 +162,11 @@ class Maze {
         }
         return elem
     }
+    
     gameFuncs(e) {
         // PlayerMode here 
         const val = e.target.innerText
-        const coords = this.getCoordsFromSquare(e.target)//[Number(e.target.getAttribute("data-y")),Number(e.target.getAttribute("data-x"))]
+        const coords = this.getCoordsFromSquare(e.target)
         const neighbours = [
             [coords[0]-1,coords[1]],
             [coords[0],coords[1]+1],
@@ -172,15 +174,15 @@ class Maze {
             [coords[0],coords[1]-1]
         ]
         const lastVisited = this.playerPath.slice(-1)[0]
-        const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)//[Number(lastVisited.getAttribute("data-y")]
+        const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)
         const scndLastVisited = this.playerPath.slice(-2)[0]
-        console.log("scndLastVisited", scndLastVisited)
         if (this.countdown === -1 && val === "v") { // check if game mode and not wall
             if (
                 JSON.stringify(neighbours).includes(JSON.stringify(lastVisitedCoords)) || // check if a neighbour was currently hovered
                 JSON.stringify(coords) === JSON.stringify(lastVisitedCoords)
             ) {
                 e.target.classList.add("hovered")
+                this.moveLines(e.target) // for debugging
                 this.playerPath.push(e.target)
             } else if (
                 e.target === scndLastVisited
@@ -188,6 +190,16 @@ class Maze {
                 console.log("scndlastVisited")
             }
         }
+    }
+
+    moveLines(target) {
+        const coords = target.getBoundingClientRect()
+        const xVal = coords.x + (coords.width/2)
+        const yVal = coords.y + (coords.height/2)
+        document.getElementById("line-y-l").style.left = coords.x + "px"
+        document.getElementById("line-y-r").style.left = (coords.x+coords.width) + "px"
+        document.getElementById("line-x-t").style.top = coords.y +"px"
+        document.getElementById("line-x-b").style.top = (coords.y+coords.height) +"px"
     }
 
     getCoordsFromSquare(elem) {
@@ -200,16 +212,12 @@ class Maze {
     }
     
     animate() {
-        if (this.countdown < 0) {
-            alert("done")
-        } else {
-        setTimeout(()=>{
-            //!this.activeField ? this.setInitialField() : this.makeStep()
-            this.makeStep()
-            console.log("running")
-            this.addToContainer()
-            this.animate()
-        },this.animationInterval)
+        if (this.countdown >= 0) {
+            setTimeout(()=>{
+                this.makeStep()
+                this.addToContainer()
+                this.animate()
+            },this.animationInterval)
         }
     }
 

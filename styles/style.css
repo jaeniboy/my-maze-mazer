@@ -38,3 +38,31 @@
 .hovered {
   background-color: orange;  
 }
+
+.line {
+  top: 1px;
+  position: absolute;
+  /* width: 5px; */
+} 
+
+#line-y-l {
+  height: 100%;
+  border-left: 1px solid red;
+} 
+
+#line-y-r {
+  height: 100%;
+  border-right: 1px solid red;
+} 
+
+#line-x-t {
+  width: 100%;
+  border-top: 1px solid red;
+} 
+
+#line-x-b {
+  width: 100%;
+  border-bottom: 1px solid red;
+} 
+
+
