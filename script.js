@@ -11,6 +11,7 @@ class Maze {
         this.grid = this.createGrid()
         this.activeField 
         this.path = []
+        this.entryField = []
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
     }
@@ -125,7 +126,8 @@ class Maze {
         this.grid[topExit[0]][topExit[1]] = "v"
         this.grid[bottomExit[0]][bottomExit[1]] = "v"
         
-        this.playerPath.push(topExit)        
+        this.entryField = topExit
+        // this.playerPath.push(topExit)        
     }
     
     drawMaze() {
@@ -142,25 +144,10 @@ class Maze {
                 square.setAttribute("data-y", rowindex)
                 square.setAttribute("data-x", colindex)
                 square.onmouseover = (e) => {
-                    // PlayerMode here 
-                    const val = e.target.innerText
-                    const coords = [Number(e.target.getAttribute("data-y")),Number(e.target.getAttribute("data-x"))]
-                    const neighbours = [
-                        [coords[0]-1,coords[1]],
-                        [coords[0],coords[1]+1],
-                        [coords[0]+1,coords[1]],
-                        [coords[0],coords[1]-1]
-                    ]
-                    const lastVisited = this.playerPath.slice(-1)[0]
-                    if (this.countdown === -1 && val === "v") { // check if game mode and not wall
-                        if (
-                            JSON.stringify(neighbours).includes(JSON.stringify(lastVisited)) || // check if a neighbour was currently hovered
-                            JSON.stringify(coords) === JSON.stringify(lastVisited)
-                        ) {
-                            e.target.classList.add("hovered")
-                            this.playerPath.push(coords)
-                        }
-                    }
+                    this.gameFuncs(e)
+                }
+                if (rowindex === this.entryField[0] && colindex === this.entryField[1]) {
+                    this.playerPath.push(square)
                 }
                 rowDiv.appendChild(square)
             }
@@ -169,5 +156,37 @@ class Maze {
         }
         return elem
     }
-    
+
+    gameFuncs(e) {
+        // PlayerMode here 
+        const val = e.target.innerText
+        const coords = this.getCoordsFromSquare(e.target)//[Number(e.target.getAttribute("data-y")),Number(e.target.getAttribute("data-x"))]
+        const neighbours = [
+            [coords[0]-1,coords[1]],
+            [coords[0],coords[1]+1],
+            [coords[0]+1,coords[1]],
+            [coords[0],coords[1]-1]
+        ]
+        const lastVisited = this.playerPath.slice(-1)[0]
+        const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)//[Number(lastVisited.getAttribute("data-y")]
+        const scndLastVisited = this.playerPath.slice(-2)[0]
+        console.log("scndLastVisited", scndLastVisited)
+        if (this.countdown === -1 && val === "v") { // check if game mode and not wall
+            if (
+                JSON.stringify(neighbours).includes(JSON.stringify(lastVisitedCoords)) || // check if a neighbour was currently hovered
+                JSON.stringify(coords) === JSON.stringify(lastVisitedCoords)
+            ) {
+                e.target.classList.add("hovered")
+                this.playerPath.push(e.target)
+            } else if (
+                e.target === scndLastVisited
+            ) {
+                console.log("scndlastVisited")
+            }
+        }
+    }
+
+    getCoordsFromSquare(elem) {
+        return [Number(elem.getAttribute("data-y")),Number(elem.getAttribute("data-x"))]
+    }
 }

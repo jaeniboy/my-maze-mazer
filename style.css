@@ -8,12 +8,13 @@
 
 .square {
   float: left;
-  width: 1em;
+  width: 1.2em;
   text-align: center;
   border-color: white;
   border-style: solid;
   border-width: 1px;
-  color: rgba(0,0,0,0)
+  color: rgba(0,0,0,0);
+  box-sizing: border-box;
 }
 
 .w {
@@ -35,5 +36,5 @@
 }
 
 .hovered {
-  background-color: orange;
+  background-color: orange;  
 }
