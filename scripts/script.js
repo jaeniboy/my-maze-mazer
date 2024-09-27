@@ -135,7 +135,7 @@ class Maze {
         this.entryField = topExit
         this.lastHovered = topExit
         // this.playerPath.push(topExit)
-        console.log("lastHovered", this.lastHovered)       
+        // console.log("lastHovered", this.lastHovered)       
     }
 
     drawMaze() {
@@ -212,8 +212,14 @@ class Maze {
         const south = document.getElementById("s-"+ (this.lastHovered[0]+1) +"-"+ this.lastHovered[1])
         const west = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]-1))
         
-         console.log([north, east, south, west])
-        //console.log(event.clientX, event.clientY)
+        //  console.log([north, east, south, west])
+        // console.log(event.clientX, event.clientY)
+        
+        // get coordinate of event
+        const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX
+        const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
+        
+        console.log(clientX,clientY)
         
         // get all neighbours unhovered
         // get all neighbours hovered
@@ -221,7 +227,7 @@ class Maze {
         // if mouseposition.y < t 
         // if n is possible neighbour => n = hovered & last element hovered
         // if n is already hovered => element last hovered = unhovered && n = last element hovered
-        if (event.clientY < top && north) {
+        if (clientY < top && north) {
             if (north.classList.contains("v") && !north.classList.contains("hovered")) {
                 north.classList.add("hovered")
                 this.lastHovered = this.getCoordsFromSquare(north)
@@ -234,7 +240,7 @@ class Maze {
         // if mouseposition.y > b 
         // if s is possible neighbour => s = hovered & last element hovered
         // if s i already hovered => element last hovered = unhovered && s = last element hovered
-        if (event.clientY > bottom) {
+        if (clientY > bottom) {
             if (south.classList.contains("v") && !south.classList.contains("hovered")) {
                 south.classList.add("hovered")
                 this.lastHovered = this.getCoordsFromSquare(south)
@@ -247,7 +253,7 @@ class Maze {
         // if mouseposition.x < l 
         // if w is possible nieghbour => w = hovered & last element hovered
         // if w is already hovered => element last hovered = unhovered && w = last element hovered
-        if (event.clientX < left) {
+        if (clientX < left) {
             if (west.classList.contains("v") && !west.classList.contains("hovered")) {
                 west.classList.add("hovered")
                 this.lastHovered = this.getCoordsFromSquare(west)
@@ -260,7 +266,7 @@ class Maze {
         // if mouseposition.x > r
         // if e is possible nieghbour => e = hovered & last element hovered
         // if e is already hovered => element last hovered = unhovered && e = last element hovered
-        if (event.clientX > right) {
+        if (clientX > right) {
             if (east.classList.contains("v") && !east.classList.contains("hovered")) {
                 east.classList.add("hovered")
                 this.lastHovered = this.getCoordsFromSquare(east)
