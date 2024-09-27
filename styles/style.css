@@ -41,7 +41,9 @@ body {
 }
 
 .hovered {
-  background-color: orange;  
+  background-color: orange;
+  outline: 5px solid white;
+  outline-offset: -5px;
 }
 
 .line {

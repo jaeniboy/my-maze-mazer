@@ -18,7 +18,7 @@ class Maze {
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
         this.container = container
-        this.random = new Math.seedrandom("1234")
+        this.random = new Math.seedrandom("hello")
         this.animationInterval = 1
         this.lastHovered
         this.gameMode = false
