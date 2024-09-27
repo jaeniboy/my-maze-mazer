@@ -296,16 +296,6 @@ class Maze {
         // const west = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]-1))
         
     }
-    
-    moveLines(target) { // helper function for debugging
-        const coords = target.getBoundingClientRect()
-        const xVal = coords.x + (coords.width/2)
-        const yVal = coords.y + (coords.height/2)
-        document.getElementById("line-y-l").style.left = coords.x + "px"
-        document.getElementById("line-y-r").style.left = (coords.x+coords.width) + "px"
-        document.getElementById("line-x-t").style.top = coords.y +"px"
-        document.getElementById("line-x-b").style.top = (coords.y+coords.height) +"px"
-    }
 
     getCoordsFromSquare(elem) {
         return [Number(elem.getAttribute("data-y")),Number(elem.getAttribute("data-x"))]
