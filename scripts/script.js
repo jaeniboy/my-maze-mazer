@@ -1,6 +1,6 @@
 class Maze {
 
-    constructor(dimx,dimy,container) {
+    constructor(dimx,dimy,container,seed="hello world") {
         this.dimx = dimx
         if (this.dimx % 2 === 0) {this.dimx = this.dimx + 1}
         this.dimy = dimy 
@@ -18,7 +18,8 @@ class Maze {
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
         this.container = container
-        this.random = new Math.seedrandom("hello")
+        this.random = new Math.seedrandom(seed)
+        // this.random = new Math.seedrandom("hello")
         this.animationInterval = 1
         this.lastHovered
         this.gameMode = false
