@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="styles/style.css"/>
   <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
-  <script src="./scripts/script.js"></script>
   <title>Maze</title>
 </head>
 <body>
@@ -16,28 +15,5 @@
   <button id="create" style="margin:0px 0px 30px 30px">Step!</button>
   <div id="container"></div>
 </body>
-<script>
-
-const container = document.getElementById("container")
-//const maze = new Maze(7,7, container)
-const maze = new Maze(35,20, container)
-maze.addToContainer()
-
-document.getElementById("create").onclick = function(){
-  maze.animate()
-}
-
-function touch_enabled() {
-    return ( 'ontouchstart' in window ) || 
-           ( navigator.maxTouchPoints > 0 ) || 
-           ( navigator.msMaxTouchPoints > 0 );
-}
-
-//document.onmousemove = function (e) {console.log(e.clientX,e.clientY)}
-if(touch_enabled()) {
-  document.ontouchmove = function(e) { maze.drawPath(e)}
-} else {
-  document.onmousemove = function(e) { maze.drawPath(e)}
-}
-</script>
+<script src="./main.js" type="module"></script>
 </html>

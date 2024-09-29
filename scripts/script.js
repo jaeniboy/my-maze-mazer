@@ -1,3 +1,4 @@
+import seedrandom from "seedrandom"
 class Maze {
 
     constructor(dimx,dimy,container,seed="hello world") {
@@ -18,8 +19,7 @@ class Maze {
         this.playerPath = []
         this.countdown = ((this.dimy - 1)/2)*((this.dimx - 1)/2)
         this.container = container
-        this.random = new Math.seedrandom(seed)
-        // this.random = new Math.seedrandom("hello")
+        this.random = seedrandom(seed)
         this.animationInterval = 1
         this.lastHovered
         this.gameMode = false
@@ -142,6 +142,15 @@ class Maze {
         this.entryFieldID = `s-${topExit[0]}-${topExit[1]}`
         this.exitFieldID = `s-${bottomExit[0]}-${bottomExit[1]}`
     
+    }
+
+    getFinalGrid() {
+        if (this.countdown >= 0) {
+            this.makeStep()
+            this.getFinalGrid()
+        } else {
+            return this.grid
+        } 
     }
 
     drawMaze() {
@@ -310,8 +319,12 @@ class Maze {
             },this.animationInterval)
         } else {
             document.getElementById(this.entryFieldID).classList.add("hovered")
+            console.log(this.grid)
             this.gameMode = true
         }
     }
 
 }
+
+// module.exports = Maze
+export default Maze
