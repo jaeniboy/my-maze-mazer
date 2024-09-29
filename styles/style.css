@@ -1,10 +1,21 @@
+:root {
+  --background: #edf1e6;
+  --wall: #55757e;
+  --hovered: #aa5a4e;
+}
+
+
 html,
 body {
     overscroll-behavior-y: contain;
+    background-color: var(--background);
+    user-select: none;
 }
 
 #container {
   font-family: "curier new", monospace;
+  display: flex;
+  justify-content: center;
 }
 
 .row {
@@ -13,11 +24,12 @@ body {
 
 .square {
   float: left;
-  width: 1.2em;
+  width: 1.5em;
+  aspect-ratio: 1 / 1;
   text-align: center;
-  border-color: white;
+  border-color: var(--background);
   border-style: solid;
-  border-width: 1px;
+  border-width: 0px;
   color: rgba(0,0,0,0);
   box-sizing: border-box;
 }
@@ -32,18 +44,18 @@ body {
 
 .s, .d, .w {
   /* color: black; */
-  background-color: lightgray;
+  background-color: var(--wall);
 }
 
 .v {
-  background-color: white;
+  /*background-color: white;*/
   /* color: white; */
 }
 
 .hovered {
-  background-color: orange;
-  outline: 5px solid white;
-  outline-offset: -5px;
+  background-color: var(--hovered);
+  outline: 6px solid var(--background);
+  outline-offset: -6px;
 }
 
 .line {
@@ -71,5 +83,3 @@ body {
   width: 100%;
   border-bottom: 1px solid red;
 } 
-
-
