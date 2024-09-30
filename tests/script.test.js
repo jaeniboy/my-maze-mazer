@@ -1,12 +1,11 @@
-// const seedrandom = require('seedrandom');
-// const Maze = require("../scripts/script")#
-import { expect, test, describe } from 'vitest'
+import { expect, test, describe} from 'vitest'
 import Maze from "../scripts/script.js"
+import {JSDOM} from "jsdom"
 
 describe("that Maze is instanciated correctly", () => {
     const container = document.createElement("div")
     const seed = 12345
-    const maze = new Maze(10, 10, container, seed)
+    let maze = new Maze(10, 10, container, seed)
 
     test("that instance is present", () => {
         expect(maze).toBeInstanceOf(Maze)
@@ -64,5 +63,42 @@ describe("that Maze is instanciated correctly", () => {
             ["w","d","w","d","w","d","w","d","w","d","w"]
         ]
         expect(maze.makeStep()).toEqual(testGrid)
+    })
+
+    const finalTestGrid = [
+        ["w","w","v","w","w","w","w","w","w","w","w"],
+        ["w","v","v","v","v","v","v","v","v","v","w"],
+        ["w","v","w","w","w","v","w","w","w","w","w"],
+        ["w","v","v","v","w","v","v","v","v","v","w"],
+        ["w","w","w","w","w","w","w","w","w","v","w"],
+        ["w","v","v","v","v","v","v","v","w","v","w"],
+        ["w","v","w","w","w","w","w","v","w","v","w"],
+        ["w","v","w","v","v","v","w","v","v","v","w"],
+        ["w","v","w","v","w","v","w","w","w","v","w"],
+        ["w","v","v","v","w","v","w","v","v","v","w"],
+        ["w","w","v","w","w","w","w","w","w","w","w"]
+      ]
+
+    test("that final grid is constructed correctly",()=>{
+        const maze = new Maze(10,10,container,seed)
+        maze.createFinalGrid()
+        expect(maze.grid).toEqual(finalTestGrid)
+    })
+
+    test("that final grid ist constructed correctly after some steps", ()=>{
+        const maze = new Maze(10,10,container, seed)
+        maze.makeStep()
+        maze.makeStep()
+        maze.makeStep()
+        maze.createFinalGrid()
+        expect(maze.grid).toEqual(finalTestGrid)
+    })
+
+    test("that html renders correctly",()=>{
+        const maze = new Maze(10,10,container,seed)
+        const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
+        const containerElem = dom.document.getElementById("container")
+        containerElem.appendChild(maze.drawMaze())
+        console.log(containerElem.innerHTML)
     })
 })

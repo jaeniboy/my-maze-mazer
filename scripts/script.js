@@ -144,13 +144,11 @@ class Maze {
     
     }
 
-    getFinalGrid() {
+    createFinalGrid() {
         if (this.countdown >= 0) {
             this.makeStep()
-            this.getFinalGrid()
-        } else {
-            return this.grid
-        } 
+            this.createFinalGrid()
+        }
     }
 
     drawMaze() {
@@ -319,7 +317,6 @@ class Maze {
             },this.animationInterval)
         } else {
             document.getElementById(this.entryFieldID).classList.add("hovered")
-            console.log(this.grid)
             this.gameMode = true
         }
     }
