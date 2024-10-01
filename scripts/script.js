@@ -165,9 +165,9 @@ class Maze {
                 square.id = "s-" + rowindex + "-" + colindex
                 square.setAttribute("data-y", rowindex)
                 square.setAttribute("data-x", colindex)
-                if (rowindex === this.entryField[0] && colindex === this.entryField[1]) {
-                    this.playerPath.push(square)
-                }
+                // if (rowindex === this.entryField[0] && colindex === this.entryField[1]) {
+                //     this.playerPath.push(square)
+                // }
                 rowDiv.appendChild(square)
             }
 
@@ -206,7 +206,6 @@ class Maze {
     }
 
     drawPath(event) {
-
         if (this.gameMode) {
             // remove all "lost" fields except entry field
             const hoveredFields = [...document.getElementsByClassName("hovered")]
@@ -280,9 +279,9 @@ class Maze {
                     this.lastHovered = this.getCoordsFromSquare(east)
                 }
             }
-        }
 
-        
+        }
+      
     }
 
     hasHoveredNeighbours(elem) {

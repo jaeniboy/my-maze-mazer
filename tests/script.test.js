@@ -1,4 +1,4 @@
-import { expect, test, describe} from 'vitest'
+import { expect, test, describe, vi} from 'vitest'
 import Maze from "../scripts/script.js"
 import {JSDOM} from "jsdom"
 
@@ -96,9 +96,56 @@ describe("that Maze is instanciated correctly", () => {
 
     test("that html renders correctly",()=>{
         const maze = new Maze(10,10,container,seed)
+        maze.createFinalGrid()
         const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
         const containerElem = dom.document.getElementById("container")
         containerElem.appendChild(maze.drawMaze())
-        console.log(containerElem.innerHTML)
+        expect(containerElem.innerHTML).toMatchSnapshot()
+    })
+
+    test("that path is drawn on mousemove",()=>{
+        const maze = new Maze(10,10,container,seed)
+        maze.createFinalGrid()
+        maze.gameMode = true
+        const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
+        global.document = dom.document
+        const containerElem = document.getElementById("container")
+        containerElem.appendChild(maze.drawMaze())
+        // get first three squares
+        const squares = [
+            document.getElementById("s-0-2"),
+            document.getElementById("s-1-2"),
+            document.getElementById("s-1-3"),
+            document.getElementById("s-1-4")
+        ]
+        squares[0].classList.add("hovered")
+        // create rects
+        const rects = [
+            {top:10,bottom:20,left:20,right:30},
+            {top:20,bottom:30,left:20,right:30},
+            {top:20,bottom:30,left:30,right:40},
+            {top:20,bottom:30,left:40,right:50},
+        ]
+        // mock getBoundingClientRect
+        squares.map((d,index)=>{
+            vi.spyOn(d, "getBoundingClientRect").mockImplementation(
+                () => {return rects[index]}
+            )
+        })
+        // add classes with mocked event 
+        const event = {clientX: 45, clientY: 25}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        const classesAdded = document.getElementsByClassName("hovered").length
+
+        // remove classes with mocked event
+        const removeEvent = {clientX: 25, clientY: 25}
+        maze.drawPath(removeEvent)
+        maze.drawPath(removeEvent)
+        const classesRemoved = classesAdded - document.getElementsByClassName("hovered").length
+        
+        expect(classesAdded).toBe(4)
+        expect(classesRemoved).toBe(2)
     })
 })
