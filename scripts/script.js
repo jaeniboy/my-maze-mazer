@@ -232,7 +232,7 @@ class Maze {
             const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
             
             if (last.id === this.exitFieldID) {
-                window.alert("winner!")
+                this.solved()
                 this.gameMode = false
             } 
             
@@ -318,6 +318,10 @@ class Maze {
             document.getElementById(this.entryFieldID).classList.add("hovered")
             this.gameMode = true
         }
+    }
+
+    solved() {
+        window.alert("winner!")
     }
 
 }

@@ -148,4 +148,55 @@ describe("that Maze is instanciated correctly", () => {
         expect(classesAdded).toBe(4)
         expect(classesRemoved).toBe(2)
     })
+
+    // test that function is called on win
+    test("that function is called on win",()=>{
+
+        const maze = new Maze(10,10,container,seed)
+        maze.createFinalGrid()
+        maze.gameMode = true
+        maze.lastHovered = [9,2]
+
+        const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
+        global.document = dom.document
+        const containerElem = document.getElementById("container")
+        containerElem.appendChild(maze.drawMaze())
+        // get last three squares
+        const squares = [
+            document.getElementById("s-9-1"),
+            document.getElementById("s-9-2"),
+            document.getElementById("s-10-2")
+        ]
+        squares[0].classList.add("hovered")
+        squares[1].classList.add("hovered")
+        // create rects
+        const rects = [
+            {top:100,bottom:110,left:10,right:20},
+            {top:100,bottom:110,left:20,right:30},
+            {top:110,bottom:120,left:20,right:30}
+        ]
+        // mock getBoundingClientRect
+        squares.map((d,index)=>{
+            vi.spyOn(d, "getBoundingClientRect").mockImplementation(
+                () => {return rects[index]}
+            )
+        })
+
+        // mock functions
+        const solved = vi.spyOn(maze,"solved")
+        vi.spyOn(window, 'alert').mockImplementation(() => {});
+        
+        // add classes with mocked event 
+        const event = {clientX: 25, clientY: 115}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        
+        expect(solved).toHaveBeenCalled()
+        expect(maze.gameMode).toBeFalsy()
+
+    })
+
+    // test animation
+
+    // test add to container
 })
