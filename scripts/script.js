@@ -315,9 +315,14 @@ class Maze {
                 this.animate()
             },this.animationInterval)
         } else {
-            document.getElementById(this.entryFieldID).classList.add("hovered")
+            // document.getElementById(this.entryFieldID).classList.add("hovered")
+            this.setEntryFieldHovered()
             this.gameMode = true
         }
+    }
+
+    setEntryFieldHovered() {
+        document.getElementById(this.entryFieldID).classList.add("hovered")
     }
 
     solved() {

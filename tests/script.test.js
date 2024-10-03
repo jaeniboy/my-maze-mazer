@@ -149,7 +149,6 @@ describe("that Maze is instanciated correctly", () => {
         expect(classesRemoved).toBe(2)
     })
 
-    // test that function is called on win
     test("that function is called on win",()=>{
 
         const maze = new Maze(10,10,container,seed)
@@ -196,7 +195,55 @@ describe("that Maze is instanciated correctly", () => {
 
     })
 
-    // test animation
+    test("that animate function results in game mode", ()=>{
+        const maze = new Maze(10,10,container,seed)
+        const spy = vi.spyOn(maze, "setEntryFieldHovered").mockImplementation(()=>{})
+        vi.spyOn(maze, "addToContainer").mockImplementation(()=>{})
+        maze.gameMode = false
 
-    // test add to container
+        // skip actual animation steps due to timeouts
+        maze.createFinalGrid()
+
+        vi.spyOn(maze, "makeStep").mockImplementation(()=>{
+            maze.countdown--
+            console.log(maze.countdown)
+        })
+        maze.countdown = 0
+        maze.animate()
+        setTimeout(()=>{
+            expect(spy).toBeCalled()
+            expect(maze.gameMode).toBeTruthy()
+        }, maze.animationInterval)
+    })
+
+    test("that html is added to container", () => {
+
+        // setup
+        const dom = new JSDOM("<!DOCTYPE html><div id='container'><div>Old Stuff</div></div>")
+        global.document = dom.window.document
+        const containerElem = document.getElementById("container")
+        const maze = new Maze(10,10,containerElem,seed)
+
+        // Mocks
+        const appendChildSpy = vi.spyOn(containerElem, "appendChild").mockImplementation((d)=>{})
+        const innerHTMLSpy = vi.spyOn(containerElem, "innerHTML", "set")
+
+        // funcs
+        maze.addToContainer()
+
+        // results
+        expect(innerHTMLSpy).toBeCalledWith("")
+        expect(appendChildSpy).toBeCalled()
+    })
+
+    test("that entry field is set to hovered",() => {
+        const dom = new JSDOM("<!DOCTYPE html><div id='container'><div id='entry-field'>entry field</div></div>")
+        global.document = dom.window.document
+        const maze = new Maze(10,10,container,seed)
+        maze.entryFieldID = "entry-field"
+        maze.setEntryFieldHovered()
+        expect(document.getElementById("entry-field").classList.contains("hovered")).toBeTruthy()
+
+    })
 })
+
