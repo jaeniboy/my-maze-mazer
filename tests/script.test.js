@@ -111,20 +111,55 @@ describe("that Maze is instanciated correctly", () => {
         global.document = dom.document
         const containerElem = document.getElementById("container")
         containerElem.appendChild(maze.drawMaze())
-        // get first three squares
+        // get squares of path
         const squares = [
             document.getElementById("s-0-2"),
             document.getElementById("s-1-2"),
             document.getElementById("s-1-3"),
-            document.getElementById("s-1-4")
+            document.getElementById("s-1-4"),
+            document.getElementById("s-1-5"),
+            document.getElementById("s-2-5"),
+            document.getElementById("s-3-5"),
+            document.getElementById("s-3-6"),
+            document.getElementById("s-3-7"),
+            document.getElementById("s-3-8"),
+            document.getElementById("s-3-9"),
+            document.getElementById("s-4-9"),
+            document.getElementById("s-5-9"),
+            document.getElementById("s-6-9"),
+            document.getElementById("s-7-9"),
+            document.getElementById("s-7-8"),
+            document.getElementById("s-7-7"),
+            document.getElementById("s-6-7")
         ]
         squares[0].classList.add("hovered")
         // create rects
         const rects = [
+            //down
             {top:10,bottom:20,left:20,right:30},
             {top:20,bottom:30,left:20,right:30},
+            //right
             {top:20,bottom:30,left:30,right:40},
             {top:20,bottom:30,left:40,right:50},
+            {top:20,bottom:30,left:50,right:60},
+            //down
+            {top:30,bottom:40,left:50,right:60},
+            {top:40,bottom:50,left:50,right:60},
+            //right
+            {top:40,bottom:50,left:60,right:70},
+            {top:40,bottom:50,left:70,right:80},
+            {top:40,bottom:50,left:80,right:90},
+            {top:40,bottom:50,left:90,right:100},
+            //down
+            {top:50,bottom:60,left:90,right:100},
+            {top:60,bottom:70,left:90,right:100},
+            {top:70,bottom:80,left:90,right:100},
+            {top:80,bottom:90,left:90,right:100},
+            //left
+            {top:80,bottom:90,left:80,right:90},
+            {top:80,bottom:90,left:70,right:80},
+            //up
+            {top:70,bottom:80,left:70,right:80},
         ]
         // mock getBoundingClientRect
         squares.map((d,index)=>{
@@ -132,21 +167,50 @@ describe("that Maze is instanciated correctly", () => {
                 () => {return rects[index]}
             )
         })
-        // add classes with mocked event 
-        const event = {clientX: 45, clientY: 25}
+        // make steps an add classes
+        let event = {clientY: 25, clientX: 55}
         maze.drawPath(event)
         maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        event = {clientY: 45, clientX: 55}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        event = {clientY: 45, clientX: 95}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        event = {clientY: 85, clientX: 95}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        maze.drawPath(event)
+        event = {clientY: 85, clientX: 75}
+        maze.drawPath(event)
+        maze.drawPath(event)
+        event = {clientY: 75, clientX: 75}
         maze.drawPath(event)
         const classesAdded = document.getElementsByClassName("hovered").length
-
+        
         // remove classes with mocked event
-        const removeEvent = {clientX: 25, clientY: 25}
+        let removeEvent = {clientY: 85, clientX: 75}
+        maze.drawPath(removeEvent)
+        removeEvent = {clientY: 85, clientX: 95}
+        maze.drawPath(removeEvent)
+        maze.drawPath(removeEvent)
+        removeEvent = {clientY: 45, clientX: 95}
+        maze.drawPath(removeEvent)
+        maze.drawPath(removeEvent)
+        maze.drawPath(removeEvent)
+        maze.drawPath(removeEvent)
+        removeEvent = {clientY: 45, clientX: 55}
         maze.drawPath(removeEvent)
         maze.drawPath(removeEvent)
         const classesRemoved = classesAdded - document.getElementsByClassName("hovered").length
         
-        expect(classesAdded).toBe(4)
-        expect(classesRemoved).toBe(2)
+        expect(classesAdded).toBe(18)
+        expect(classesRemoved).toBe(9)
     })
 
     test("that function is called on win",()=>{
@@ -244,6 +308,26 @@ describe("that Maze is instanciated correctly", () => {
         maze.setEntryFieldHovered()
         expect(document.getElementById("entry-field").classList.contains("hovered")).toBeTruthy()
 
+    })
+
+    test("that coords from event return properly",()=>{
+        const touchmoveEvent = {
+            type: "touchmove",
+            touches: [
+                {clientX: 0, clientY: 1}
+            ]
+        }
+
+        const mousemoveEvent = {
+            type: "mousemove",
+            clientX: 0,
+            clientY: 1
+        }
+
+        expect(maze.getCoordsFromEvent(touchmoveEvent)[0]).toBe(0)
+        expect(maze.getCoordsFromEvent(touchmoveEvent)[1]).toBe(1)
+        expect(maze.getCoordsFromEvent(mousemoveEvent)[0]).toBe(0)
+        expect(maze.getCoordsFromEvent(mousemoveEvent)[1]).toBe(1)
     })
 })
 

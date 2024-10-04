@@ -176,34 +176,34 @@ class Maze {
         return elem
     }
     
-    gameFuncs(e) {
-        // PlayerMode here 
-        const val = e.target.innerText
-        const coords = this.getCoordsFromSquare(e.target)
-        const neighbours = [
-            [coords[0]-1,coords[1]],
-            [coords[0],coords[1]+1],
-            [coords[0]+1,coords[1]],
-            [coords[0],coords[1]-1]
-        ]
-        const lastVisited = this.playerPath.slice(-1)[0]
-        const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)
-        const scndLastVisited = this.playerPath.slice(-2)[0]
-        if (this.countdown === -1 && val === "v") { // check if game mode and not wall
-            if (
-                JSON.stringify(neighbours).includes(JSON.stringify(lastVisitedCoords)) || // check if a neighbour was currently hovered
-                JSON.stringify(coords) === JSON.stringify(lastVisitedCoords)
-            ) {
-                e.target.classList.add("hovered")
-                this.moveLines(e.target) // for debugging
-                this.playerPath.push(e.target)
-            } else if (
-                e.target === scndLastVisited
-            ) {
-                console.log("scndlastVisited")
-            }
-        }
-    }
+    // gameFuncs(e) {
+    //     // PlayerMode here 
+    //     const val = e.target.innerText
+    //     const coords = this.getCoordsFromSquare(e.target)
+    //     const neighbours = [
+    //         [coords[0]-1,coords[1]],
+    //         [coords[0],coords[1]+1],
+    //         [coords[0]+1,coords[1]],
+    //         [coords[0],coords[1]-1]
+    //     ]
+    //     const lastVisited = this.playerPath.slice(-1)[0]
+    //     const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)
+    //     const scndLastVisited = this.playerPath.slice(-2)[0]
+    //     if (this.countdown === -1 && val === "v") { // check if game mode and not wall
+    //         if (
+    //             JSON.stringify(neighbours).includes(JSON.stringify(lastVisitedCoords)) || // check if a neighbour was currently hovered
+    //             JSON.stringify(coords) === JSON.stringify(lastVisitedCoords)
+    //         ) {
+    //             e.target.classList.add("hovered")
+    //             this.moveLines(e.target) // for debugging
+    //             this.playerPath.push(e.target)
+    //         } else if (
+    //             e.target === scndLastVisited
+    //         ) {
+    //             console.log("scndlastVisited")
+    //         }
+    //     }
+    // }
 
     drawPath(event) {
         if (this.gameMode) {
@@ -227,9 +227,11 @@ class Maze {
             const south = document.getElementById("s-"+ (this.lastHovered[0]+1) +"-"+ this.lastHovered[1])
             const west = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]-1))
             
-            // get coordinate of event
-            const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX
-            const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
+            // // get coordinate of event
+            // const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX
+            // const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
+            const clientX = this.getCoordsFromEvent(event)[0]
+            const clientY = this.getCoordsFromEvent(event)[1]
             
             if (last.id === this.exitFieldID) {
                 this.solved()
@@ -282,6 +284,13 @@ class Maze {
 
         }
       
+    }
+
+    getCoordsFromEvent(event) {
+        // get coordinate of event
+        const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX
+        const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
+        return[clientX,clientY]
     }
 
     hasHoveredNeighbours(elem) {
