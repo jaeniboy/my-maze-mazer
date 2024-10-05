@@ -1,21 +1,32 @@
 import Maze from "./scripts/script.js"
+import { applySquareSize } from "./scripts/utils.js"
 
 const container = document.getElementById("container")
-const maze = new Maze(10,10, container, 12345)
+const dimx = 30
+const dimy = 50
+const maze = new Maze(dimx, dimy, container, 12345)
+applySquareSize(dimx, dimy, container)
+
 maze.addToContainer()
 
-document.getElementById("create").onclick = function(){
+document.getElementById("create").onclick = function () {
   maze.animate()
 }
 
-function touch_enabled() {
-    return ( 'ontouchstart' in window ) || 
-           ( navigator.maxTouchPoints > 0 ) || 
-           ( navigator.msMaxTouchPoints > 0 );
+// set size of square based on screen width 
+// and height and make it responsive
+window.onresize = () => {
+  applySquareSize(dimx, dimy, container)
 }
 
-if(touch_enabled()) {
-  document.ontouchmove = function(e) { maze.drawPath(e)}
+function touch_enabled() {
+  return ('ontouchstart' in window) ||
+    (navigator.maxTouchPoints > 0) ||
+    (navigator.msMaxTouchPoints > 0);
+}
+
+if (touch_enabled()) {
+  document.ontouchmove = function (e) { maze.drawPath(e) }
 } else {
-  document.onmousemove = function(e) { maze.drawPath(e)}
+  document.onmousemove = function (e) { maze.drawPath(e) }
 }

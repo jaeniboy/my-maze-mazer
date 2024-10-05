@@ -12,10 +12,34 @@ body {
     user-select: none;
 }
 
+body {
+  margin: 0px;
+}
+
+#content {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+#header {
+  /* flex-flow: row; */
+  display: flex;
+  height: 10vh;
+  justify-content: space-evenly;
+}
+
 #container {
+  /* flex-flow: row; */
   font-family: "curier new", monospace;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.footer {
+  height: 5vh;
 }
 
 .row {
@@ -24,8 +48,8 @@ body {
 
 .square {
   float: left;
-  width: 1.5em;
-  aspect-ratio: 1 / 1;
+  /* width: 1.5em; */
+  /* aspect-ratio: 1 / 1; */
   text-align: center;
   border-color: var(--background);
   border-style: solid;
@@ -47,10 +71,10 @@ body {
   background-color: var(--wall);
 }
 
-.v {
-  /*background-color: white;*/
-  /* color: white; */
-}
+/* .v {
+  background-color: white;
+  color: white;
+} */
 
 .hovered {
   background-color: var(--hovered);
