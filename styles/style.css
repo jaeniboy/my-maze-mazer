@@ -4,7 +4,6 @@
   --hovered: #aa5a4e;
 }
 
-
 html,
 body {
     overscroll-behavior-y: contain;
@@ -13,6 +12,7 @@ body {
 }
 
 body {
+  font-family: "curier new", monospace;
   margin: 0px 10px;
 }
 
@@ -31,14 +31,27 @@ body {
 
 #container {
   /* flex-flow: row; */
-  font-family: "curier new", monospace;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-grow: 1;
 }
 
-.footer {
+#setup-container {
+  display: flex;
+  flex-flow: column;
+}
+
+#setup-container > label {
+  margin-top: 0.7em;
+  margin-bottom: 0.1em;
+}
+
+#setup-container > button {
+  margin-top: 3em;
+}
+
+#footer {
   height: 5vh;
 }
 
