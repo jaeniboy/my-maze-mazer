@@ -3,7 +3,7 @@
     "short_name": "Mazer",
     "theme_color": "#55757e",
     "background_color": "#edf1e6",
-    "display": "standalone",
+    "display": "fullscreen",
     "scope": "/",
     "start_url": "http://192.168.0.23:1234/",
     "description": "Maze game for different screen sizes",
