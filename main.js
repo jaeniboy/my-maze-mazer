@@ -2,11 +2,13 @@ import Maze from "./scripts/script.js"
 import { applySquareSize } from "./scripts/utils.js"
 
 const container = document.getElementById("container")
-const dimx = 30
-const dimy = 50
+const dimx = 7
+const dimy = 7
 const maze = new Maze(dimx, dimy, container, 12345)
 applySquareSize(dimx, dimy, container)
 
+maze.addToContainer()
+maze.createFinalGrid()
 maze.addToContainer()
 
 document.getElementById("create").onclick = function () {
@@ -21,7 +23,7 @@ window.onresize = () => {
 
 function touch_enabled() {
   return ('ontouchstart' in window) ||
-    (navigator.maxTouchPoints > 0) ||
+    // (navigator.maxTouchPoints > 0) ||
     (navigator.msMaxTouchPoints > 0);
 }
 
