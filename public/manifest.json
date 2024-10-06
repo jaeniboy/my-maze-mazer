@@ -1,0 +1,17 @@
+{
+    "name": "MY MAZE MAZER",
+    "short_name": "Mazer",
+    "theme_color": "#55757e",
+    "background_color": "#edf1e6",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "http://192.168.0.23:1234/",
+    "description": "Maze game for different screen sizes",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "http://192.168.0.23:1234/logo_small_2.png",
+            "sizes": "144x144"
+        }
+    ]
+}
