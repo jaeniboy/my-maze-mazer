@@ -1,12 +1,11 @@
 import Maze from "./scripts/script.js"
 import { applySquareSize, renderSetupPage } from "./scripts/utils.js"
 
-// set the current state of the spa
-// let state = "setup" // game, win
 const container = document.getElementById("container")
 
 // if (state === "setup") {
-  renderSetupPage(container)
+renderSetupPage(container)
+
 // }
 
 // const dimx = 7
