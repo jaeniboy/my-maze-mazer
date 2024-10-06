@@ -160,7 +160,7 @@ class Maze {
             rowDiv.className = "row"
             for (let [colindex, value] of row.entries()) {
                 let square = document.createElement("div")
-                square.innerText = value
+                // square.innerText = value
                 square.className = value + " square"
                 square.id = "s-" + rowindex + "-" + colindex
                 square.setAttribute("data-y", rowindex)
