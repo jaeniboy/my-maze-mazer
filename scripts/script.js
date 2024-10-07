@@ -1,4 +1,6 @@
 import seedrandom from "seedrandom"
+import { timerID, timeToSolve } from "../scripts/utils";
+
 class Maze {
 
     constructor(dimx,dimy,container,seed="hello world") {
@@ -335,7 +337,8 @@ class Maze {
     }
 
     solved() {
-        window.alert("winner!")
+        window.alert(`winner! ${timeToSolve}`)
+        clearInterval(timerID)
     }
 
 }

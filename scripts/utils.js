@@ -1,6 +1,9 @@
 import Maze from "../scripts/script"
 import * as utils from "../scripts/utils"
 
+export let timerID
+export let timeToSolve
+
 export const maxSquareSize = (dimx,dimy,container) => {
     const x = dimx % 2 === 0 ? dimx + 1 : dimx
     const y = dimy % 2 === 0 ? dimy + 1 : dimy
@@ -10,12 +13,12 @@ export const maxSquareSize = (dimx,dimy,container) => {
     ))
   }
 
-export const applySquareSize = (dimx, dimy, container) => {
+export const applySquareSize = (dimx, dimy, container, doc=document) => {
   // compute square size
   // const size = maxSquareSize(dimx,dimy,container)
   const size = utils.maxSquareSize(dimx,dimy,container)
   // get last style sheet in list
-  const sheet = [...document.styleSheets].slice(-1)[0]
+  const sheet = [...doc.styleSheets].slice(-1)[0]
   // remove rule if already present
   sheet.cssRules[0].selectorText === ".square" &&  sheet.deleteRule(0)
   // add new rule with computed square size values
@@ -64,6 +67,7 @@ export const startGame = (container) => {
 
   maze.setEntryFieldHovered()
   maze.gameMode = true
+  utils.startTimer()
 
   function touch_enabled() {
     return ('ontouchstart' in window) ||
@@ -77,4 +81,29 @@ export const startGame = (container) => {
     document.onmousemove = function (e) { maze.drawPath(e) }
   }
 
+}
+
+export const startTimer = () => {
+  const timerElement = document.getElementById("timer-container")
+  const startTime = Date.now();
+
+  const timeFormat = (millis) => {
+    const minutes = Math.floor(millis / 60000);
+    const seconds = ((millis % 60000) / 1000).toFixed(2);
+    return (
+      seconds == 60 ?
+      (minutes+1) + ":00" :
+      (minutes < 10 ? "0" + minutes : minutes  ) + ":" + (seconds < 10 ? "0" : "") + seconds
+    );}
+  
+  timerID = setInterval( () => {
+    // const time = Date.now() - startTime
+    const time = utils.timeDifference(startTime)
+    timeToSolve = timeFormat(time)
+    timerElement.innerText = timeFormat(time) // (time/1000).toFixed(2)
+  },10)
+}
+
+export const timeDifference = (startTime) => {
+  return Date.now() - startTime
 }
