@@ -107,8 +107,3 @@ export const startTimer = () => {
 export const timeDifference = (startTime) => {
   return Date.now() - startTime
 }
-
-export const testFunc = () => {
-  const foo = document.getElementById("timer-container")
-  foo.innerHTML = "blabla"
-}
