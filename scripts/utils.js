@@ -13,12 +13,12 @@ export const maxSquareSize = (dimx,dimy,container) => {
     ))
   }
 
-export const applySquareSize = (dimx, dimy, container) => {
+export const applySquareSize = (dimx, dimy, container, doc=document) => {
   // compute square size
   // const size = maxSquareSize(dimx,dimy,container)
   const size = utils.maxSquareSize(dimx,dimy,container)
   // get last style sheet in list
-  const sheet = [...document.styleSheets].slice(-1)[0]
+  const sheet = [...doc.styleSheets].slice(-1)[0]
   // remove rule if already present
   sheet.cssRules[0].selectorText === ".square" &&  sheet.deleteRule(0)
   // add new rule with computed square size values
@@ -97,9 +97,18 @@ export const startTimer = () => {
     );}
   
   timerID = setInterval( () => {
-    const time = Date.now() - startTime
+    // const time = Date.now() - startTime
+    const time = utils.timeDifference(startTime)
     timeToSolve = timeFormat(time)
     timerElement.innerText = timeFormat(time) // (time/1000).toFixed(2)
   },10)
-  
+}
+
+export const timeDifference = (startTime) => {
+  return Date.now() - startTime
+}
+
+export const testFunc = () => {
+  const foo = document.getElementById("timer-container")
+  foo.innerHTML = "blabla"
 }
