@@ -170,6 +170,9 @@ class Maze {
                 // if (rowindex === this.entryField[0] && colindex === this.entryField[1]) {
                 //     this.playerPath.push(square)
                 // }
+                let innerSquare = document.createElement("div")
+                innerSquare.className = "inner-square"
+                square.appendChild(innerSquare)
                 rowDiv.appendChild(square)
             }
 
