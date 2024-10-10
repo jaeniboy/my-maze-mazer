@@ -4,7 +4,7 @@ import {JSDOM} from "jsdom"
 
 describe("that Maze is instanciated correctly", () => {
     const container = document.createElement("div")
-    const seed = 12345
+    const seed = "12345"
     let maze = new Maze(10, 10, container, seed)
 
     test("that instance is present", () => {
@@ -66,17 +66,17 @@ describe("that Maze is instanciated correctly", () => {
     })
 
     const finalTestGrid = [
-        ["w","w","v","w","w","w","w","w","w","w","w"],
-        ["w","v","v","v","v","v","v","v","v","v","w"],
-        ["w","v","w","w","w","v","w","w","w","w","w"],
-        ["w","v","v","v","w","v","v","v","v","v","w"],
         ["w","w","w","w","w","w","w","w","w","v","w"],
-        ["w","v","v","v","v","v","v","v","w","v","w"],
+        ["w","v","v","v","v","v","v","v","v","v","w"],
+        ["w","w","w","w","w","w","w","w","w","v","w"],
+        ["w","v","v","v","v","v","w","v","v","v","w"],
+        ["w","w","w","w","w","v","w","v","w","v","w"],
+        ["w","v","v","v","v","v","w","v","w","v","w"],
         ["w","v","w","w","w","w","w","v","w","v","w"],
-        ["w","v","w","v","v","v","w","v","v","v","w"],
-        ["w","v","w","v","w","v","w","w","w","v","w"],
-        ["w","v","v","v","w","v","w","v","v","v","w"],
-        ["w","w","v","w","w","w","w","w","w","w","w"]
+        ["w","v","w","v","v","v","v","v","w","v","w"],
+        ["w","v","w","w","w","w","w","v","w","v","w"],
+        ["w","v","v","v","v","v","v","v","w","v","w"],
+        ["w","v","w","w","w","w","w","w","w","w","w"]
       ]
 
     test("that final grid is constructed correctly",()=>{
@@ -111,106 +111,66 @@ describe("that Maze is instanciated correctly", () => {
         global.document = dom.document
         const containerElem = document.getElementById("container")
         containerElem.appendChild(maze.drawMaze())
+
         // get squares of path
-        const squares = [
-            document.getElementById("s-0-2"),
-            document.getElementById("s-1-2"),
-            document.getElementById("s-1-3"),
-            document.getElementById("s-1-4"),
-            document.getElementById("s-1-5"),
-            document.getElementById("s-2-5"),
-            document.getElementById("s-3-5"),
-            document.getElementById("s-3-6"),
-            document.getElementById("s-3-7"),
-            document.getElementById("s-3-8"),
-            document.getElementById("s-3-9"),
-            document.getElementById("s-4-9"),
-            document.getElementById("s-5-9"),
-            document.getElementById("s-6-9"),
-            document.getElementById("s-7-9"),
-            document.getElementById("s-7-8"),
-            document.getElementById("s-7-7"),
-            document.getElementById("s-6-7")
+        const coords = [
+            [0,9],
+            [1,9],
+            [2,9],
+            [3,9],
+            [3,8],
+            [3,7],
+            [4,7],
+            [5,7],
+            [6,7],
+            [7,7],
+            [8,7],
+            [9,7],
+            [9,6],
+            [9,5],
+            [9,4],
+            [9,3],
+            [9,2],
+            [9,1],
+            [8,1],
+            [7,1],
+            [6,1],
+            [5,1],
+            [5,2],
+            [5,3],
         ]
+
+        const squares = coords.map((d)=>{return document.getElementById(`s-${d[0]}-${d[1]}`)})
+
         squares[0].classList.add("hovered")
+
         // create rects
-        const rects = [
-            //down
-            {top:10,bottom:20,left:20,right:30},
-            {top:20,bottom:30,left:20,right:30},
-            //right
-            {top:20,bottom:30,left:30,right:40},
-            {top:20,bottom:30,left:40,right:50},
-            {top:20,bottom:30,left:50,right:60},
-            //down
-            {top:30,bottom:40,left:50,right:60},
-            {top:40,bottom:50,left:50,right:60},
-            //right
-            {top:40,bottom:50,left:60,right:70},
-            {top:40,bottom:50,left:70,right:80},
-            {top:40,bottom:50,left:80,right:90},
-            {top:40,bottom:50,left:90,right:100},
-            //down
-            {top:50,bottom:60,left:90,right:100},
-            {top:60,bottom:70,left:90,right:100},
-            {top:70,bottom:80,left:90,right:100},
-            {top:80,bottom:90,left:90,right:100},
-            //left
-            {top:80,bottom:90,left:80,right:90},
-            {top:80,bottom:90,left:70,right:80},
-            //up
-            {top:70,bottom:80,left:70,right:80},
-        ]
+        const rects = coords.map(d=>{
+            return {
+                top: d[0] * 10,
+                bottom: d[0] * 10 + 10,
+                left: d[1] * 10,
+                right: d[1] * 10 + 10
+            }
+        })
+
         // mock getBoundingClientRect
         squares.map((d,index)=>{
             vi.spyOn(d, "getBoundingClientRect").mockImplementation(
                 () => {return rects[index]}
             )
         })
+
         // make steps an add classes
-        let event = {clientY: 25, clientX: 55}
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        event = {clientY: 45, clientX: 55}
-        maze.drawPath(event)
-        maze.drawPath(event)
-        event = {clientY: 45, clientX: 95}
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        event = {clientY: 85, clientX: 95}
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        maze.drawPath(event)
-        event = {clientY: 85, clientX: 75}
-        maze.drawPath(event)
-        maze.drawPath(event)
-        event = {clientY: 75, clientX: 75}
-        maze.drawPath(event)
+        rects.map(d=>maze.drawPath({clientY: d.top + 5, clientX: d.left + 5}))
         const classesAdded = document.getElementsByClassName("hovered").length
         
         // remove classes with mocked event
-        let removeEvent = {clientY: 85, clientX: 75}
-        maze.drawPath(removeEvent)
-        removeEvent = {clientY: 85, clientX: 95}
-        maze.drawPath(removeEvent)
-        maze.drawPath(removeEvent)
-        removeEvent = {clientY: 45, clientX: 95}
-        maze.drawPath(removeEvent)
-        maze.drawPath(removeEvent)
-        maze.drawPath(removeEvent)
-        maze.drawPath(removeEvent)
-        removeEvent = {clientY: 45, clientX: 55}
-        maze.drawPath(removeEvent)
-        maze.drawPath(removeEvent)
+        rects.toReversed().map(d=>maze.drawPath({clientY: d.top + 5, clientX: d.left + 5}))
         const classesRemoved = classesAdded - document.getElementsByClassName("hovered").length
-        
-        expect(classesAdded).toBe(18)
-        expect(classesRemoved).toBe(9)
+
+        expect(classesAdded).toBe(24)
+        expect(classesRemoved).toBe(23)
     })
 
     test("that function is called on win",()=>{
@@ -328,6 +288,33 @@ describe("that Maze is instanciated correctly", () => {
         expect(maze.getCoordsFromEvent(touchmoveEvent)[1]).toBe(1)
         expect(maze.getCoordsFromEvent(mousemoveEvent)[0]).toBe(0)
         expect(maze.getCoordsFromEvent(mousemoveEvent)[1]).toBe(1)
+    })
+
+    const fixedTests = [
+        [10, "1234"],
+        [20, "Apfelbaum"],
+        [30, "12121212"],
+        [40, "foobar"]
+    ]
+
+    const randomTests = [...Array(10)].map(() => {
+        return [
+            Math.floor(Math.random() * 100),
+            Math.floor(Math.random() * 10000).toString()
+        ]
+    }).filter(d => d[0] >= 10 && d[1].length >= 1)
+
+    test.each([...fixedTests,...randomTests])("that exit is far away from entry with dimx %i and seed %s",(dimx, seed)=>{
+        const maze = new Maze(dimx,20,container,seed)
+        maze.createFinalGrid()
+        maze.addToContainer()
+        const rows = container.getElementsByClassName("row")
+        const entry = rows[0].querySelector(".v").id
+        const entryY = entry.split("-")[2]
+        const exit = [...rows].slice(-1)[0].querySelector(".v").id
+        const exitY = exit.split("-")[2]
+        const testValue = (dimx) - entryY
+        expect([testValue - 1, testValue, testValue + 1]).toContain(Number(exitY))
     })
 })
 
