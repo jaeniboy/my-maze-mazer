@@ -17,10 +17,10 @@ describe("that Maze is instanciated correctly", () => {
 
     test("that seedrandom works correctly", () => {
         const testValues = [
-            0.9166586073672581,
-            0.033239555014046934,
-            0.8161255028800786,
-            0.5355104187079619
+            0.20703519639616447,
+            0.6602710883040208,
+            0.500949276170095,
+            0.8740238761320421,
         ]
         const randValues = [
             maze.random(),
@@ -32,6 +32,7 @@ describe("that Maze is instanciated correctly", () => {
     })
 
     test("that initial grid is constructed correctly", () => {
+
         const testGrid = [
             ["w","d","w","d","w","d","w","d","w","d","w"],
             ["d","s","d","s","d","s","d","s","d","s","d"],
@@ -49,13 +50,16 @@ describe("that Maze is instanciated correctly", () => {
     })
 
     test("that first step is constructed correctly",()=>{
+        const seed = "12345"
+        let maze = new Maze(10, 10, container, seed)
+
         const testGrid = [
             ["w","d","w","d","w","d","w","d","w","d","w"],
             ["d","s","d","s","d","s","d","s","d","s","d"],
             ["w","d","w","d","w","d","w","d","w","d","w"],
-            ["d","s","d","s","d","s","d","s","d","s","d"],
+            ["d","v","d","s","d","s","d","s","d","s","d"],
             ["w","d","w","d","w","d","w","d","w","d","w"],
-            ["d","s","d","s","d","s","d","s","d","v","d"],
+            ["d","s","d","s","d","s","d","s","d","s","d"],
             ["w","d","w","d","w","d","w","d","w","d","w"],
             ["d","s","d","s","d","s","d","s","d","s","d"],
             ["w","d","w","d","w","d","w","d","w","d","w"],
@@ -178,7 +182,7 @@ describe("that Maze is instanciated correctly", () => {
         const maze = new Maze(10,10,container,seed)
         maze.createFinalGrid()
         maze.gameMode = true
-        maze.lastHovered = [9,2]
+        maze.lastHovered = [9,1]
 
         const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
         global.document = dom.document
@@ -186,17 +190,17 @@ describe("that Maze is instanciated correctly", () => {
         containerElem.appendChild(maze.drawMaze())
         // get last three squares
         const squares = [
-            document.getElementById("s-9-1"),
             document.getElementById("s-9-2"),
-            document.getElementById("s-10-2")
+            document.getElementById("s-9-1"),
+            document.getElementById("s-10-1")
         ]
         squares[0].classList.add("hovered")
         squares[1].classList.add("hovered")
         // create rects
         const rects = [
-            {top:100,bottom:110,left:10,right:20},
-            {top:100,bottom:110,left:20,right:30},
-            {top:110,bottom:120,left:20,right:30}
+            {top:90,bottom:100,left:20,right:30},
+            {top:90,bottom:100,left:10,right:20},
+            {top:100,bottom:110,left:10,right:20}
         ]
         // mock getBoundingClientRect
         squares.map((d,index)=>{
@@ -210,7 +214,7 @@ describe("that Maze is instanciated correctly", () => {
         vi.spyOn(window, 'alert').mockImplementation(() => {});
         
         // add classes with mocked event 
-        const event = {clientX: 25, clientY: 115}
+        const event = {clientX: 15, clientY: 105}
         maze.drawPath(event)
         maze.drawPath(event)
         
@@ -230,7 +234,6 @@ describe("that Maze is instanciated correctly", () => {
 
         vi.spyOn(maze, "makeStep").mockImplementation(()=>{
             maze.countdown--
-            console.log(maze.countdown)
         })
         maze.countdown = 0
         maze.animate()
@@ -294,7 +297,8 @@ describe("that Maze is instanciated correctly", () => {
         [10, "1234"],
         [20, "Apfelbaum"],
         [30, "12121212"],
-        [40, "foobar"]
+        [40, "foobar"],
+        [21, "9732"]
     ]
 
     const randomTests = [...Array(10)].map(() => {
@@ -313,7 +317,7 @@ describe("that Maze is instanciated correctly", () => {
         const entryY = entry.split("-")[2]
         const exit = [...rows].slice(-1)[0].querySelector(".v").id
         const exitY = exit.split("-")[2]
-        const testValue = (dimx) - entryY
+        const testValue = (maze.dimx - 1) - entryY
         expect([testValue - 1, testValue, testValue + 1]).toContain(Number(exitY))
     })
 })
