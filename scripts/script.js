@@ -132,17 +132,27 @@ class Maze {
         // check which walls are next to paths
         const top = this.grid[0].map((d,i)=>{return this.grid[1][i] === "v" ? [0,i] : []}).filter(d=>d.length > 0)
         const bottom = this.grid[this.dimy-1].map((d,i)=>{return this.grid[this.dimy-2][i] === "v" ? [this.dimy-1,i] : []}).filter(d=>d.length > 0)
+        
 
         const topExit = this.getRand(top)
         const bottomExit = this.getRand(bottom)
+        const bottomExitTemp = (this.dimx-1) - topExit[1]
+        const bottomExitTempNeighbour = this.grid[this.dimy-2][bottomExitTemp]
+        let bottomExitX
+        if (bottomExitTempNeighbour !== "v") {
+            bottomExitX = bottomExitTemp >= topExit[1] ? bottomExitTemp + 1 : bottomExitTemp - 1
+        } else {
+            bottomExitX = bottomExitTemp
+        }
 
         this.grid[topExit[0]][topExit[1]] = "v"
-        this.grid[bottomExit[0]][bottomExit[1]] = "v"
+        this.grid[this.dimy-1][bottomExitX] = "v"
+        // this.grid[bottomExit[0]][bottomExit[1]] = "v"
         
         this.entryField = topExit
         this.lastHovered = topExit
         this.entryFieldID = `s-${topExit[0]}-${topExit[1]}`
-        this.exitFieldID = `s-${bottomExit[0]}-${bottomExit[1]}`
+        this.exitFieldID = `s-${[this.dimy-1]}-${bottomExitX}`
     
     }
 
@@ -162,14 +172,11 @@ class Maze {
             rowDiv.className = "row"
             for (let [colindex, value] of row.entries()) {
                 let square = document.createElement("div")
-                // square.innerText = value
                 square.className = value + " square"
                 square.id = "s-" + rowindex + "-" + colindex
                 square.setAttribute("data-y", rowindex)
                 square.setAttribute("data-x", colindex)
-                // if (rowindex === this.entryField[0] && colindex === this.entryField[1]) {
-                //     this.playerPath.push(square)
-                // }
+
                 let innerSquare = document.createElement("div")
                 innerSquare.className = "inner-square"
                 square.appendChild(innerSquare)
@@ -181,35 +188,6 @@ class Maze {
         return elem
     }
     
-    // gameFuncs(e) {
-    //     // PlayerMode here 
-    //     const val = e.target.innerText
-    //     const coords = this.getCoordsFromSquare(e.target)
-    //     const neighbours = [
-    //         [coords[0]-1,coords[1]],
-    //         [coords[0],coords[1]+1],
-    //         [coords[0]+1,coords[1]],
-    //         [coords[0],coords[1]-1]
-    //     ]
-    //     const lastVisited = this.playerPath.slice(-1)[0]
-    //     const lastVisitedCoords = this.getCoordsFromSquare(lastVisited)
-    //     const scndLastVisited = this.playerPath.slice(-2)[0]
-    //     if (this.countdown === -1 && val === "v") { // check if game mode and not wall
-    //         if (
-    //             JSON.stringify(neighbours).includes(JSON.stringify(lastVisitedCoords)) || // check if a neighbour was currently hovered
-    //             JSON.stringify(coords) === JSON.stringify(lastVisitedCoords)
-    //         ) {
-    //             e.target.classList.add("hovered")
-    //             this.moveLines(e.target) // for debugging
-    //             this.playerPath.push(e.target)
-    //         } else if (
-    //             e.target === scndLastVisited
-    //         ) {
-    //             console.log("scndlastVisited")
-    //         }
-    //     }
-    // }
-
     drawPath(event) {
         if (this.gameMode) {
             // remove all "lost" fields except entry field
@@ -232,9 +210,7 @@ class Maze {
             const south = document.getElementById("s-"+ (this.lastHovered[0]+1) +"-"+ this.lastHovered[1])
             const west = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]-1))
             
-            // // get coordinate of event
-            // const clientX = event.type === "touchmove" ? event.touches[0].clientX : event.clientX
-            // const clientY = event.type === "touchmove" ? event.touches[0].clientY : event.clientY
+            // get coordinate of event
             const clientX = this.getCoordsFromEvent(event)[0]
             const clientY = this.getCoordsFromEvent(event)[1]
             
