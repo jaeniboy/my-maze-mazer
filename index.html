@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 
 <html>
+
 <head>
   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=0">
-  <link rel="stylesheet" href="styles/style.css"/>
-  <link rel="shortcut icon" type="image/png" href="logo_small_2.png"/>
-  <link rel="apple-touch-icon" href="logo_small_2.png"/>
-  <link rel="manifest" href="manifest.json"/>
+  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="shortcut icon" type="image/png" href="logo_small_2.png" />
+  <link rel="apple-touch-icon" href="logo_small_2.png" />
+  <link rel="manifest" href="manifest.json" />
   <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
   <title>Maze</title>
 </head>
+
 <body>
   <div id="content">
 
@@ -29,6 +31,19 @@
     <div id="container"></div>
     <div id="footer">footer</div>
   </div>
-  </body>
-  <script src="./main.js" type="module"></script>
-  </html>
+  <div class="popup-overlay">
+    <div class="popup-content">
+      <span class="close-button">&times;</span>
+      <h2 class="popup-header">Popup Title</h2>
+      <p class="popup-description">This is a brief explanation of the popup content.</p>
+      <div class="popup-chart">
+        <!-- Interactive chart will go here -->
+      </div>
+      <div class="player-list-container">
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./main.js" type="module"></script>
+
+</html>

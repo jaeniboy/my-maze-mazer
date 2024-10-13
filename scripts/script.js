@@ -1,5 +1,7 @@
 import seedrandom from "seedrandom"
+import confetti from "canvas-confetti"
 import { timerID, timeToSolve } from "../scripts/utils";
+import { showPopup } from "./popup";
 
 class Maze {
 
@@ -340,7 +342,15 @@ class Maze {
     }
 
     solved() {
-        window.alert(`winner! ${timeToSolve}`)
+        // window.alert(`winner! ${timeToSolve}`)
+        confetti({
+            origin: { y: 1 },
+            colors: ["#55757e","#aa5a4e"],
+            spread: 80
+        })
+        setTimeout(()=>{
+            showPopup()
+        }, 1000)
         clearInterval(timerID)
     }
 
