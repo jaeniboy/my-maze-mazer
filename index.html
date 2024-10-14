@@ -9,7 +9,7 @@
   <link rel="shortcut icon" type="image/png" href="logo_small_2.png" />
   <link rel="apple-touch-icon" href="logo_small_2.png" />
   <link rel="manifest" href="manifest.json" />
-  <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script> -->
   <title>Maze</title>
 </head>
 
@@ -34,10 +34,11 @@
   <div class="popup-overlay">
     <div class="popup-content">
       <span class="close-button">&times;</span>
-      <h2 class="popup-header">Popup Title</h2>
-      <p class="popup-description">This is a brief explanation of the popup content.</p>
+      <h2 class="popup-header">Great!</h2>
+      <p class="popup-description">You've found your way in <span id="result"></span> minutes. That's a good result!</p>
       <div class="popup-chart">
         <!-- Interactive chart will go here -->
+        <canvas id="myChart"></canvas>
       </div>
       <div class="player-list-container">
       </div>

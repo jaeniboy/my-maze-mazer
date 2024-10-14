@@ -1,5 +1,4 @@
-import Maze from "./scripts/script.js"
-import { applySquareSize, renderSetupPage } from "./scripts/utils.js"
+import { renderSetupPage } from "./scripts/utils.js"
 
 const container = document.getElementById("container")
 

@@ -349,6 +349,7 @@ class Maze {
             spread: 80
         })
         setTimeout(()=>{
+            document.getElementById("result").innerText = timeToSolve
             showPopup()
         }, 1000)
         clearInterval(timerID)

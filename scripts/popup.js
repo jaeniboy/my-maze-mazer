@@ -1,4 +1,5 @@
 import playersData from "../data/players.json"
+import {chart} from "../scripts/chart"
 
 const generatePlayerListHTML = (players) => {
     const ul = document.createElement('ul');
@@ -33,6 +34,8 @@ export const showPopup = () => {
     }, 10);
 }
 
+showPopup()
+
 // close button with animation
 document.querySelector('.close-button').addEventListener('click', () => {
     const overlay = document.querySelector('.popup-overlay');
@@ -42,7 +45,17 @@ document.querySelector('.close-button').addEventListener('click', () => {
     }, 300);
 });
 
+// add chart to window
+
+chart()
+
 // add player data to html
 const playerListContainer = document.querySelector('.player-list-container');
 const playerListHTML = generatePlayerListHTML(playersData);
 playerListContainer.appendChild(playerListHTML);
+
+console.log("popup works")
+
+
+
+

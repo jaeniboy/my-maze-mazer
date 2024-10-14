@@ -1,17 +1,17 @@
 [
-    { "name": "Emma Thompson", "time": "00:45.32" },
-    { "name": "Liam Chen", "time": "00:17.89" },
-    { "name": "Sophia Rodriguez", "time": "00:02.75" },
-    { "name": "Noah Patel", "time": "00:58.41" },
-    { "name": "Olivia Kim", "time": "00:33.20" },
-    { "name": "Ethan Nguyen", "time": "00:09.67" },
-    { "name": "Ava Johnson", "time": "00:22.54" },
-    { "name": "Mason Williams", "time": "00:51.98" },
-    { "name": "Isabella Garcia", "time": "00:06.12" },
-    { "name": "James Lee", "time": "00:39.76" },
-    { "name": "Charlotte Brown", "time": "00:27.03" },
-    { "name": "Benjamin Taylor", "time": "00:14.88" },
-    { "name": "Amelia Martinez", "time": "00:55.29" },
-    { "name": "Lucas Wilson", "time": "00:04.91" },
-    { "name": "Mia Anderson", "time": "00:36.45" }
-  ]
+  { "name": "Emma Thompson", "time": "00:45.32" },
+  { "name": "Liam Chen", "time": "00:17.89" },
+  { "name": "Sophia Rodriguez", "time": "00:02.75" },
+  { "name": "Noah Patel", "time": "00:58.41" },
+  { "name": "Olivia Kim", "time": "00:33.20" },
+  { "name": "Ethan Nguyen", "time": "00:09.67" },
+  { "name": "Ava Johnson", "time": "00:22.54" },
+  { "name": "Mason Williams", "time": "00:51.98" },
+  { "name": "Isabella Garcia", "time": "00:06.12" },
+  { "name": "James Lee", "time": "00:39.76" },
+  { "name": "Charlotte Brown", "time": "00:27.03" },
+  { "name": "Benjamin Taylor", "time": "00:14.88" },
+  { "name": "Amelia Martinez", "time": "00:55.29" },
+  { "name": "Lucas Wilson", "time": "00:04.91" },
+  { "name": "Mia Anderson", "time": "00:36.45" }
+]
