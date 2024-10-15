@@ -1,5 +1,6 @@
 import playersData from "../data/players.json"
 import {chart} from "../scripts/chart"
+// import { timeToSolve } from "./utils";
 
 const generatePlayerListHTML = (players) => {
     const ul = document.createElement('ul');
@@ -34,7 +35,7 @@ export const showPopup = () => {
     }, 10);
 }
 
-showPopup()
+//showPopup()
 
 // close button with animation
 document.querySelector('.close-button').addEventListener('click', () => {
@@ -45,9 +46,33 @@ document.querySelector('.close-button').addEventListener('click', () => {
     }, 300);
 });
 
+// generate chart data
+
+const getSecondsFromTimeString = (timestring) => {
+    const [minutes, seconds] = timestring.split(':');
+    const totalSeconds = parseInt(minutes) * 60 + parseFloat(seconds);
+    return totalSeconds
+}
+
+const getDistributionFromData = (data, maxSeconds = 15) => {
+    const result = new Array(maxSeconds).fill(0);
+    data.forEach(item => {
+    //   const [minutes, seconds] = item.time.split(':');
+      const totalSeconds = getSecondsFromTimeString(item.time)//parseInt(minutes) * 60 + parseFloat(seconds);
+      const index = Math.floor(totalSeconds);
+      if (index < maxSeconds) {
+        result[index]++;
+      }
+    });
+    return result;
+  }  
+
+const playersDist = getDistributionFromData(playersData)
+const playerTime = getSecondsFromTimeString("00:07.12")
+console.log(playerTime)
 // add chart to window
 
-chart()
+chart(playerTime,playersDist)
 
 // add player data to html
 const playerListContainer = document.querySelector('.player-list-container');

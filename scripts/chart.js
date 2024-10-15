@@ -3,22 +3,23 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 
 Chart.register(annotationPlugin);
 
-export const chart = () => {
+export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
+    const maxValue = Math.max(...data)
     new Chart(ctx, {
         type: 'bar',
         data: {
             labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15],
-            // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
             datasets: [{
-                // label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1,
-                barPercentage: 1,
+                // data: [0, 12, 19, 3, 5, 2, 3],
+                data: data,
+                barPercentage: 0.95,
                 categoryPercentage: 1
             }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 y: {
                     beginAtZero: true,
@@ -28,15 +29,21 @@ export const chart = () => {
                     grid: {
                         display: false,
                     },
+                    ticks: {
+                        align: "end",
+                        crossAlign: "center",
+                        padding: 3,
+                        labelOffset: -7,
+                    }
                 },   
             },
             elements: {
                 bar: {
-                    backgroundColor: "#55757e",
-                    borderWidth: 1,
-                    borderColor: "#edf1e6", 
-                    borderSkipped: false,
-                    borderRadius: 5,
+                    backgroundColor: "rgba(85, 117, 126, 0.5)",
+                    borderWidth: 2,
+                    borderColor: "rgba(85, 117, 126, 1)", 
+                    borderSkipped: "bottom",
+                    borderRadius: 2,
                 }
             },
             plugins: {
@@ -47,22 +54,34 @@ export const chart = () => {
                     annotations: {
                         line1: {
                           type: 'line',
-                          xMin: 2.2,
-                          xMax: 2.2,
+                          xMin: playerTime,
+                          xMax: playerTime,
+                        //   xMin: 2.2,
+                        //   xMax: 2.2,
                           borderColor: '#aa5a4e',
                           borderWidth: 3,
                           backgroundColor: "white"
                         },
                         label1: {
                             type: 'label',
-                            xValue: 2.5,
-                            yValue: 17,
-                            content: ['Your time'],
+                            position: "start",
+                            padding: 2,
+                            xValue: playerTime,
+                            // xValue: 2.2,
+                            yValue: maxValue * 1.2,
+                            // yValue: 22,
+                            content: ['⤺ your time'],
                             font: {
                               size: 12
                             }
                         }
                     }
+                }
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 20,
                 }
             }
         }
