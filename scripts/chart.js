@@ -1,7 +1,30 @@
 import Chart from "chart.js/auto"
 import annotationPlugin from 'chartjs-plugin-annotation';
 
+// generate chart data
+
+export const getSecondsFromTimeString = (timestring) => {
+    const [minutes, seconds] = timestring.split(':');
+    const totalSeconds = parseInt(minutes) * 60 + parseFloat(seconds);
+    return totalSeconds
+}
+
+export const getDistributionFromData = (data, maxSeconds = 15) => {
+    const result = new Array(maxSeconds).fill(0);
+    data.forEach(item => {
+      const totalSeconds = getSecondsFromTimeString(item.time)//parseInt(minutes) * 60 + parseFloat(seconds);
+      const index = Math.floor(totalSeconds);
+      if (index < maxSeconds) {
+        result[index]++;
+      }
+    });
+    return result;
+  }  
+
+// generate Chart
+
 Chart.register(annotationPlugin);
+Chart.defaults.font.family = '"curier new", monospace'
 
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
@@ -70,7 +93,7 @@ export const chart = (playerTime, data) => {
                             // xValue: 2.2,
                             yValue: maxValue * 1.2,
                             // yValue: 22,
-                            content: ['⤺ your time'],
+                            content: [' ⤺ your time'],
                             font: {
                               size: 12
                             }

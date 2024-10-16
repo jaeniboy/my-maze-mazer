@@ -1,7 +1,9 @@
 import seedrandom from "seedrandom"
 import confetti from "canvas-confetti"
 import { timerID, timeToSolve } from "../scripts/utils";
-import { showPopup } from "./popup";
+import { showPopup} from "./popup";
+import {chart, getDistributionFromData, getSecondsFromTimeString} from "./chart"
+import playersData from "../data/players.json"
 
 class Maze {
 
@@ -350,6 +352,9 @@ class Maze {
         })
         setTimeout(()=>{
             document.getElementById("result").innerText = timeToSolve
+            const playersDist = getDistributionFromData(playersData)
+            const playerTime = getSecondsFromTimeString(timeToSolve)
+            chart(playerTime,playersDist)
             showPopup()
         }, 1000)
         clearInterval(timerID)
