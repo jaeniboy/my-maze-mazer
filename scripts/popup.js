@@ -2,7 +2,7 @@ import playersData from "../data/players.json"
 // import {chart} from "../scripts/chart"
 // import { timeToSolve } from "./utils";
 
-const generatePlayerListHTML = (players) => {
+export const generatePlayerListHTML = (players) => {
     const ul = document.createElement('ul');
     ul.className = 'player-list';
   
@@ -29,7 +29,7 @@ const generatePlayerListHTML = (players) => {
 // main function to show component
 export const showPopup = () => {
     animateCloseButton()
-    addPlayerData()
+    addPlayerData(playersData)
     const overlay = document.querySelector('.popup-overlay');
     overlay.style.display = 'block';
     setTimeout(() => {
@@ -49,10 +49,9 @@ export const animateCloseButton= () => {
 }
 
 // add player data to html
-const addPlayerData = () => {
-
+const addPlayerData = (data) => {
     const playerListContainer = document.querySelector('.player-list-container');
-    const playerListHTML = generatePlayerListHTML(playersData);
+    const playerListHTML = generatePlayerListHTML(data);
     playerListContainer.appendChild(playerListHTML);
 }
 
