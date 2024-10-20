@@ -154,7 +154,8 @@ class Maze {
         // this.grid[bottomExit[0]][bottomExit[1]] = "v"
         
         this.entryField = topExit
-        this.lastHovered = topExit
+        // this.lastHovered = topExit
+        this.playerPath.push(this.entryField)
         this.entryFieldID = `s-${topExit[0]}-${topExit[1]}`
         this.exitFieldID = `s-${[this.dimy-1]}-${bottomExitX}`
     
@@ -194,13 +195,21 @@ class Maze {
     
     drawPath(event) {
         if (this.gameMode) {
+
+            // prevents signing two fields as visited at the same time
+            let nothingHoverd = true
+
             // remove all "lost" fields except entry field
             const hoveredFields = [...document.getElementsByClassName("hovered")]
             const lostFields = hoveredFields.filter(d=>!this.hasHoveredNeighbours(d) && d.id !== this.entryFieldID)
-            lostFields.map(d=>d.classList.remove("hovered"))
+            if (lostFields.length > 0) {
+                lostFields.map(d=>d.classList.remove("hovered"))
+                this.playerPath.pop()
+            }
 
-            // get element last hovered
-            const last = document.getElementById("s-"+this.lastHovered[0]+"-"+this.lastHovered[1])
+            // get ID of last hoverd field
+            const lastHovered = this.playerPath.slice(-1)[0]
+            const last = document.getElementById("s-"+lastHovered[0]+"-"+lastHovered[1])
 
             // get all border values t, b, l, r
             const top = last.getBoundingClientRect().top
@@ -209,11 +218,11 @@ class Maze {
             const right = last.getBoundingClientRect().right
             
             // get all neighbours n, e, s, w
-            const north = document.getElementById("s-"+ (this.lastHovered[0]-1) +"-"+ this.lastHovered[1])
-            const east = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]+1))
-            const south = document.getElementById("s-"+ (this.lastHovered[0]+1) +"-"+ this.lastHovered[1])
-            const west = document.getElementById("s-"+ (this.lastHovered[0]) +"-"+ (this.lastHovered[1]-1))
-            
+            const north = document.getElementById("s-"+ (lastHovered[0]-1) +"-"+ lastHovered[1])
+            const east = document.getElementById("s-"+ (lastHovered[0]) +"-"+ (lastHovered[1]+1))
+            const south = document.getElementById("s-"+ (lastHovered[0]+1) +"-"+ lastHovered[1])
+            const west = document.getElementById("s-"+ (lastHovered[0]) +"-"+ (lastHovered[1]-1))
+              
             // get coordinate of event
             const clientX = this.getCoordsFromEvent(event)[0]
             const clientY = this.getCoordsFromEvent(event)[1]
@@ -224,46 +233,50 @@ class Maze {
             } 
             
             // check the north
-            if (clientY < top && north) {
+            if (clientY < top && north && nothingHoverd) {
                 if (north.classList.contains("v") && !north.classList.contains("hovered")) {
                     north.classList.add("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(north)
+                    this.playerPath.push(this.getCoordsFromSquare(north))
+                    nothingHoverd = false
                 } else if (north.classList.contains("hovered")) {
                     last.classList.remove("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(north)
+                    this.playerPath.pop()
                 }
             }
             
             // check the south
-            if (clientY > bottom) {
+            if (clientY > bottom && nothingHoverd) {
                 if (south.classList.contains("v") && !south.classList.contains("hovered")) {
                     south.classList.add("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(south)
+                    this.playerPath.push(this.getCoordsFromSquare(south))
+                    nothingHoverd = false
                 } else if (south.classList.contains("hovered")) {
                     last.classList.remove("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(south)
+                    this.playerPath.pop()
                 }
             }
             
             // check the west
-            if (clientX < left) {
+            if (clientX < left && nothingHoverd) {
                 if (west.classList.contains("v") && !west.classList.contains("hovered")) {
                     west.classList.add("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(west)
+                    this.playerPath.push(this.getCoordsFromSquare(west))
+                    nothingHoverd = false
                 } else if (west.classList.contains("hovered")) {
                     last.classList.remove("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(west)
+                    this.playerPath.pop()
                 }
             }
                 
             // check the east
-            if (clientX > right) {
+            if (clientX > right && nothingHoverd) {
                 if (east.classList.contains("v") && !east.classList.contains("hovered")) {
                     east.classList.add("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(east)
+                    this.playerPath.push(this.getCoordsFromSquare(east))
+                    nothingHoverd = false
                 } else if (east.classList.contains("hovered")) {
                     last.classList.remove("hovered")
-                    this.lastHovered = this.getCoordsFromSquare(east)
+                    this.playerPath.pop()
                 }
             }
 
