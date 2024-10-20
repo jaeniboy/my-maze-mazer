@@ -1,0 +1,49 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`that chart is added to dom 1`] = `
+{
+  "bar": {
+    "backgroundColor": "rgba(85, 117, 126, 0.5)",
+    "borderColor": "rgba(85, 117, 126, 1)",
+    "borderRadius": 2,
+    "borderSkipped": "bottom",
+    "borderWidth": 2,
+  },
+}
+`;
+
+exports[`that chart is added to dom 2`] = `
+{
+  "backgroundColor": "white",
+  "borderColor": "#aa5a4e",
+  "borderWidth": 3,
+  "id": "line1",
+  "type": "line",
+  "xMax": 7.75,
+  "xMin": 7.75,
+}
+`;
+
+exports[`that chart is added to dom 3`] = `
+{
+  "content": [
+    " ⤺ your time",
+  ],
+  "font": {
+    "size": 12,
+  },
+  "id": "label1",
+  "padding": 2,
+  "position": "start",
+  "type": "label",
+  "xValue": 7.75,
+  "yValue": 2.4,
+}
+`;
+
+exports[`that chart is added to dom 4`] = `
+{
+  "left": 20,
+  "right": 20,
+}
+`;

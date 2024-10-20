@@ -1,6 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import { getSecondsFromTimeString, getDistributionFromData, chart } from "../scripts/chart"
 import { JSDOM } from "jsdom"
+import { Chart } from "chart.js"
 
 const fakePlayers = [
     {"name": "Luca Rossi", "time": "00:08.23"},
@@ -34,9 +35,29 @@ test("that chart is added to dom", () => {
       
       // Stub the global ResizeObserver
       vi.stubGlobal('ResizeObserver', ResizeObserverMock);
+    
+    const fakeData = [0,0,0,0,0,0,1,2,2,2,1,0,0,0,0]
+    const fakePlayerTime = 7.75
+    chart(fakePlayerTime, fakeData)
 
-    chart(7.75, [0,0,0,0,0,0,1,2,2,2,1,0,0,0,0])
+    // check that chart is visible
     expect(document.querySelector("#myChart").style.display).toBe("block")
+
+    // check that charts main configs are correct
+    const thisChart = Chart.getChart("myChart").config._config
+    expect(thisChart.type).toBe("bar")
+    expect(thisChart.data.labels).toEqual([
+        0,  1,  2,  3,  4,  5,
+        6,  7,  8,  9, 10, 11,
+       12, 13, 14, 15
+     ])
+    expect(thisChart.data.datasets[0].data).toEqual(fakeData)
+    expect(thisChart.options.elements).toMatchSnapshot()
+    expect(thisChart.options.plugins.legend.display).toBeFalsy()
+    expect(thisChart.options.plugins.annotation.annotations.line1).toMatchSnapshot()
+    expect(thisChart.options.plugins.annotation.annotations.label1).toMatchSnapshot()
+    expect(thisChart.options.layout.padding).toMatchSnapshot()
+
     vi.resetAllMocks()
 
 })
