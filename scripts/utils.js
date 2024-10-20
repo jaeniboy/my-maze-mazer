@@ -55,6 +55,7 @@ export const startGame = (container) => {
   const seed = document.getElementById("seed").value
   const maze = new Maze(dimx, dimy, container, seed)
   maze.createFinalGrid()
+  console.log(maze.grid)
   maze.addToContainer()
   // applySquareSize(dimx, dimy, container)
   utils.applySquareSize(dimx, dimy, container)
