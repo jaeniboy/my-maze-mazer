@@ -6,9 +6,9 @@
 
 html,
 body {
-    overscroll-behavior-y: contain;
-    background-color: var(--background);
-    user-select: none;
+  overscroll-behavior-y: contain;
+  background-color: var(--background);
+  user-select: none;
 }
 
 body {
@@ -28,7 +28,7 @@ body {
   justify-content: space-evenly;
 }
 
-#header > div {
+#header>div {
   text-align: center;
 }
 
@@ -48,12 +48,12 @@ body {
   flex-flow: column;
 }
 
-#setup-container > label {
+#setup-container>label {
   margin-top: 0.7em;
   margin-bottom: 0.1em;
 }
 
-#setup-container > button {
+#setup-container>button {
   margin-top: 3em;
 }
 
@@ -71,7 +71,7 @@ body {
   border-color: var(--background);
   border-style: solid;
   border-width: 0px;
-  color: rgba(0,0,0,0);
+  color: rgba(0, 0, 0, 0);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -80,13 +80,129 @@ body {
 
 .inner-square {
   width: 60%;
-  height: 60%;  
+  height: 60%;
 }
 
 .hovered .inner-square {
   background-color: var(--hovered);
 }
 
-.s, .d, .w {
+.s,
+.d,
+.w {
   background-color: var(--wall);
+}
+
+
+/* Popup Window */
+
+.popup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.7);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.popup-overlay.active {
+  opacity: 1;
+}
+
+.popup-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 90%;
+  background-color: var(--background);
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* overflow-y: auto; */
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Tablets und kleine Laptops */
+@media screen and (min-width: 768px) {
+  .popup-content {
+    width: 70%;
+  }
+}
+
+/* Laptops und Desktop-Monitore */
+@media screen and (min-width: 1024px) {
+  .popup-content {
+    width: 50%;
+  }
+}
+
+/* Große Desktop-Monitore */
+@media screen and (min-width: 1440px) {
+  .popup-content {
+    width: 40%;
+  }
+}
+
+/* Sehr große Bildschirme */
+@media screen and (min-width: 1920px) {
+  .popup-content {
+    width: 50%;
+  }
+}
+
+.popup-overlay.active .popup-content {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.popup-header {
+  margin-bottom: 15px;
+}
+
+.popup-description {
+  margin-bottom: 20px;
+}
+
+.popup-chart {
+  width: 100%;
+  height: 25vh ;
+  /* background-color: #f0f0f0; */
+  margin-bottom: 20px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.player-list-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.player-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
 }

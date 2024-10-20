@@ -1,0 +1,120 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`popup window > that players list renders correctly 1`] = `
+<ul
+  class="player-list"
+>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Luca Rossi
+    </span>
+    <span
+      class="player-time"
+    >
+      00:08.23
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Sofia Müller
+    </span>
+    <span
+      class="player-time"
+    >
+      00:07.89
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Aisha Khan
+    </span>
+    <span
+      class="player-time"
+    >
+      00:09.56
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Mateo Garcia
+    </span>
+    <span
+      class="player-time"
+    >
+      00:06.78
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Yuki Tanaka
+    </span>
+    <span
+      class="player-time"
+    >
+      00:10.12
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Anya Ivanova
+    </span>
+    <span
+      class="player-time"
+    >
+      00:07.45
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Nina Schmidt
+    </span>
+    <span
+      class="player-time"
+    >
+      00:08.67
+    </span>
+  </li>
+  <li
+    class="player-item"
+  >
+    <span
+      class="player-name"
+    >
+      Omar Ahmed
+    </span>
+    <span
+      class="player-time"
+    >
+      00:09.34
+    </span>
+  </li>
+</ul>
+`;
