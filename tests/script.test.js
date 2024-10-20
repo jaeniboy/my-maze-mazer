@@ -182,7 +182,8 @@ describe("that Maze is instanciated correctly", () => {
         const maze = new Maze(10,10,container,seed)
         maze.createFinalGrid()
         maze.gameMode = true
-        maze.lastHovered = [9,1]
+        // maze.lastHovered = [9,1]
+        maze.playerPath = [[9,3],[9,2],[9,1]]
 
         const dom = new JSDOM("<!DOCTYPE html><div id='container'></div>").window
         global.document = dom.document
@@ -210,7 +211,7 @@ describe("that Maze is instanciated correctly", () => {
         })
 
         // mock functions
-        const solved = vi.spyOn(maze,"solved")
+        const solved = vi.spyOn(maze,"solved").mockImplementation(() => {});
         vi.spyOn(window, 'alert').mockImplementation(() => {});
         
         // add classes with mocked event 
