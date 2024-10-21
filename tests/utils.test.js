@@ -181,3 +181,17 @@ describe("time counter", () => {
     vi.restoreAllMocks()
 
 })
+
+test("that random seed value is iserted on click", () => {
+    const dom = new JSDOM('<div id="container"><input type="text" id="seed" name="seed" value="1234"></div>')
+    global.document = dom.window.document
+
+    const initSeed = document.querySelector("#seed").value
+    utils.insertRandSeed()
+    const firstRand = document.querySelector("#seed").value
+    utils.insertRandSeed()
+    const secondRand = document.querySelector("#seed").value
+    
+    expect(firstRand).not.toBe(initSeed)
+    expect(secondRand).not.toBe(firstRand)
+})
