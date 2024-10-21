@@ -36,16 +36,25 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   <label for="dimy">Anzahl y:</label>
   <input type="text" id="dimy" name="y" value="${defaults.y}">
   <label for="seed">Seed:</label>
-  <input type="text" id="seed" name="seed" value="${defaults.seed}">
+  <div id="seed-input-area">
+  <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed">⟳</span>
+  </div>
   `
-
+  
+  // start game on click
   const button = document.createElement("button")
   button.id = "start-game-button"
   button.innerText = "Start Game"
-  // button.onclick = ()=> startGame(container)
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
+  
+  // get random seed on click
+  document.getElementById("random-seed").onclick = () => {insertRandSeed()}
+}
+
+export const insertRandSeed = () => {
+  document.getElementById("seed").value = Math.floor(Math.random() * 100000)
 }
 
 export const startGame = (container) => {
@@ -55,7 +64,6 @@ export const startGame = (container) => {
   const seed = document.getElementById("seed").value
   const maze = new Maze(dimx, dimy, container, seed)
   maze.createFinalGrid()
-  console.log(maze.grid)
   maze.addToContainer()
   // applySquareSize(dimx, dimy, container)
   utils.applySquareSize(dimx, dimy, container)
