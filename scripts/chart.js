@@ -9,17 +9,31 @@ export const getSecondsFromTimeString = (timestring) => {
     return totalSeconds
 }
 
-export const getDistributionFromData = (data, maxSeconds = 15) => {
+export const getDistributionFromData = (playertime, data, maxSeconds = 15) => {
+    const timesArray = [...data.map(d=>d.time), playertime].map(time=>getSecondsFromTimeString(time))
+    maxSeconds = Math.floor(Math.max(...timesArray)) + 2
     const result = new Array(maxSeconds).fill(0);
     data.forEach(item => {
-      const totalSeconds = getSecondsFromTimeString(item.time)//parseInt(minutes) * 60 + parseFloat(seconds);
+      const totalSeconds = getSecondsFromTimeString(item.time)
       const index = Math.floor(totalSeconds);
       if (index < maxSeconds) {
         result[index]++;
       }
     });
+    console.log(result)
     return result;
-  }  
+  }
+
+export const shiftDistribution = (playerTime, distributionArray) => {
+    // get min and max values
+    const filteredArray = distributionArray.filter(d=>d)
+    const min = Math.min(...filteredArray)
+    const max = Math.max(...filteredArray)
+    const randValue = Math.floor(Math.random() * (max - min + 1)) + min
+    const diff = Math.floor(playerTime) - randValue
+    const shiftedArray = distributionArray.map(d=> d !== 0 ? d + diff : 0)
+    console.log(shiftedArray)
+}
 
 // generate Chart
 
@@ -29,12 +43,14 @@ Chart.defaults.font.family = '"curier new", monospace'
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
     const maxValue = Math.max(...data)
+    const leftLabel = playerTime > data.length - 3 ? true : false
+    console.log(leftLabel)
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,11,12,13,14,15],
+            // generate labels based on array length
+            labels: data.map((d,i)=>i),
             datasets: [{
-                // data: [0, 12, 19, 3, 5, 2, 3],
                 data: data,
                 barPercentage: 0.95,
                 categoryPercentage: 1
@@ -87,13 +103,13 @@ export const chart = (playerTime, data) => {
                         },
                         label1: {
                             type: 'label',
-                            position: "start",
+                            position: leftLabel ? "end" : "start",
                             padding: 2,
                             xValue: playerTime,
                             // xValue: 2.2,
                             yValue: maxValue * 1.2,
                             // yValue: 22,
-                            content: [' ⤺ your time'],
+                            content: leftLabel ? ['your time ⤻ '] : [' ⤺ your time'],
                             font: {
                               size: 12
                             }
