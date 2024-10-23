@@ -1,22 +1,38 @@
-import playersData from "../data/players.json"
-// import {chart} from "../scripts/chart"
-// import { timeToSolve } from "./utils";
+import {names} from "../data/players"
 
-export const generatePlayerListHTML = (players) => {
+export function floatToTimeString(floatTime) {
+    // round to get two digits after comma
+    floatTime = Math.round(floatTime * 100) / 100;
+    
+    let minutes = Math.floor(floatTime / 60);
+    let seconds = Math.floor(floatTime % 60);
+    let milliseconds = Math.round((floatTime % 1) * 100);
+
+    // format strings
+    minutes = minutes.toString().padStart(2, '0');
+    seconds = seconds.toString().padStart(2, '0');
+    milliseconds = milliseconds.toString().padStart(2, '0');
+
+    // compose time string
+    return `${minutes}:${seconds}.${milliseconds}`;
+}
+
+export const generatePlayerListHTML = (names, times) => {
     const ul = document.createElement('ul');
     ul.className = 'player-list';
   
-    players.forEach(player => {
+    names.forEach((name,index) => {
         const li = document.createElement('li');
         li.className = 'player-item';
 
         const nameSpan = document.createElement('span');
         nameSpan.className = 'player-name';
-        nameSpan.textContent = player.name;
+        nameSpan.textContent = name;
+        // nameSpan.textContent = player.name;
 
         const timeSpan = document.createElement('span');
         timeSpan.className = 'player-time';
-        timeSpan.textContent = player.time;
+        timeSpan.textContent = floatToTimeString(times[index]);
 
         li.appendChild(nameSpan);
         li.appendChild(timeSpan);
@@ -26,10 +42,19 @@ export const generatePlayerListHTML = (players) => {
     return ul;
 }
 
+export const addGrading = (playerTime, othersTimes) => {
+    const min = Math.min(...othersTimes)
+    const max = Math.max(...othersTimes)
+    const grading = playerTime < min ? "pretty good" : playerTime > max ? "far from perfect. Try again" : "good"
+
+    document.querySelector("#grading").innerHTML = grading
+}
+
 // main function to show component
-export const showPopup = () => {
+export const showPopup = (playerTime,times) => {
     animateCloseButton()
-    addPlayerData(playersData)
+    addGrading(playerTime, times)
+    addPlayerData(names, times)
     const overlay = document.querySelector('.popup-overlay');
     overlay.style.display = 'block';
     setTimeout(() => {
@@ -49,9 +74,9 @@ export const animateCloseButton= () => {
 }
 
 // add player data to html
-const addPlayerData = (data) => {
+const addPlayerData = (names, times) => {
     const playerListContainer = document.querySelector('.player-list-container');
-    const playerListHTML = generatePlayerListHTML(data);
+    const playerListHTML = generatePlayerListHTML(names, times);
     playerListContainer.appendChild(playerListHTML);
 }
 
