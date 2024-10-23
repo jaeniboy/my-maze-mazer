@@ -2,8 +2,8 @@ import seedrandom from "seedrandom"
 import confetti from "canvas-confetti"
 import { timerID, timeToSolve } from "../scripts/utils";
 import { showPopup} from "./popup";
-import {chart, getDistributionFromData, getSecondsFromTimeString, shiftDistribution} from "./chart"
-import playersData from "../data/players.json"
+import {chart, getDistributionFromData, getSecondsFromTimeString, shiftTimeValues} from "./chart"
+import {times} from "../data/players"
 
 class Maze {
 
@@ -333,7 +333,6 @@ class Maze {
     }
 
     solved() {
-        // window.alert(`winner! ${timeToSolve}`)
         confetti({
             origin: { y: 1 },
             colors: ["#55757e","#aa5a4e"],
@@ -341,11 +340,12 @@ class Maze {
         })
         setTimeout(()=>{
             document.getElementById("result").innerText = timeToSolve
-            const playersDist = getDistributionFromData(timeToSolve,playersData)
+
             const playerTime = getSecondsFromTimeString(timeToSolve)
-            shiftDistribution(playerTime, playersDist)
+            const shiftedTimes = shiftTimeValues(playerTime, times)
+            const playersDist = getDistributionFromData(playerTime,shiftedTimes)//playersData)
             chart(playerTime,playersDist)
-            showPopup()
+            showPopup(playerTime,shiftedTimes)
         }, 1000)
         clearInterval(timerID)
     }

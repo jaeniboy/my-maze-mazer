@@ -117,6 +117,3 @@ export const startTimer = () => {
 export const timeDifference = (startTime) => {
   return Date.now() - startTime
 }
-
-// pupup window
-
