@@ -1,7 +1,9 @@
 import Chart from "chart.js/auto"
 import annotationPlugin from 'chartjs-plugin-annotation';
+import { floatToTimeString } from "./popup";
 
 // generate chart data
+
 
 export const getSecondsFromTimeString = (timestring) => {
     const [minutes, seconds] = timestring.split(':');
@@ -10,12 +12,11 @@ export const getSecondsFromTimeString = (timestring) => {
 }
 
 export const getDistributionFromData = (playertime, data, maxSeconds = 15) => {
-    const timesArray = [...data.map(d=>d.time), playertime].map(time=>getSecondsFromTimeString(time))
+    const timesArray = [...data, playertime]
     maxSeconds = Math.floor(Math.max(...timesArray)) + 2
     const result = new Array(maxSeconds).fill(0);
-    data.forEach(item => {
-      const totalSeconds = getSecondsFromTimeString(item.time)
-      const index = Math.floor(totalSeconds);
+    data.forEach(seconds => {
+      const index = Math.floor(seconds);
       if (index < maxSeconds) {
         result[index]++;
       }
@@ -24,15 +25,17 @@ export const getDistributionFromData = (playertime, data, maxSeconds = 15) => {
     return result;
   }
 
-export const shiftDistribution = (playerTime, distributionArray) => {
+export const shiftTimeValues = (playerTime, othersTimes) => {
     // get min and max values
-    const filteredArray = distributionArray.filter(d=>d)
-    const min = Math.min(...filteredArray)
-    const max = Math.max(...filteredArray)
+    const min = Math.min(...othersTimes) - 2
+    const max = Math.max(...othersTimes) + 2
+    // get random number between min and max
     const randValue = Math.floor(Math.random() * (max - min + 1)) + min
     const diff = Math.floor(playerTime) - randValue
-    const shiftedArray = distributionArray.map(d=> d !== 0 ? d + diff : 0)
-    console.log(shiftedArray)
+    const shiftedArray = othersTimes.map(d=> d !== 0 ? d + diff : 0)
+    // turn negatives into positives
+    const nonNegative = shiftedArray.map((d) => {return d < 0 ? d * (-1) : d})
+    return nonNegative
 }
 
 // generate Chart
@@ -43,7 +46,7 @@ Chart.defaults.font.family = '"curier new", monospace'
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
     const maxValue = Math.max(...data)
-    const leftLabel = playerTime > data.length - 3 ? true : false
+    const leftLabel = false
     console.log(leftLabel)
     new Chart(ctx, {
         type: 'bar',
@@ -95,6 +98,8 @@ export const chart = (playerTime, data) => {
                           type: 'line',
                           xMin: playerTime,
                           xMax: playerTime,
+                          yMin: 0,
+                          yMax: maxValue * 1.5,
                         //   xMin: 2.2,
                         //   xMax: 2.2,
                           borderColor: '#aa5a4e',
