@@ -21,6 +21,8 @@ exports[`that chart is added to dom 2`] = `
   "type": "line",
   "xMax": 7.75,
   "xMin": 7.75,
+  "yMax": 3,
+  "yMin": 0,
 }
 `;
 
