@@ -68,7 +68,27 @@ body {
 
 #footer {
   height: 5vh;
+  display: flex;
+  justify-content: space-between;
 }
+
+/* footer content */
+
+.backwards {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+.maze-info {
+  visibility: hidden; 
+}
+
+.download {
+  visibility: hidden;
+  cursor: pointer;
+}
+
+/* game content */
 
 .row {
   overflow: hidden;
@@ -214,4 +234,8 @@ body {
   right: 10px;
   font-size: 24px;
   cursor: pointer;
+}
+
+.visible {
+  visibility: visible;
 }

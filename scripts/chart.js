@@ -2,6 +2,8 @@ import Chart from "chart.js/auto"
 import annotationPlugin from 'chartjs-plugin-annotation';
 import { floatToTimeString } from "./popup";
 
+export let gameChart = null
+
 // generate chart data
 
 
@@ -46,9 +48,8 @@ Chart.defaults.font.family = '"curier new", monospace'
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
     const maxValue = Math.max(...data)
-    const leftLabel = false
-    console.log(leftLabel)
-    new Chart(ctx, {
+    const leftLabel = false // todo
+    gameChart = new Chart(ctx, {
         type: 'bar',
         data: {
             // generate labels based on array length

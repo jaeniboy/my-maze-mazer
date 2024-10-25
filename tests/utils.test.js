@@ -84,6 +84,9 @@ describe("that game is started correctly",()=>{
             <input id="dimy" value="${y}">
             <input id="seed" value="1234">        
         </div>
+        <div id="footer">
+            <div class="backwards"></div>
+        </div>
     `)
 
     global.document = dom.window.document

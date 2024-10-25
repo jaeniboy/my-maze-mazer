@@ -1,5 +1,6 @@
 import Maze from "../scripts/script"
 import * as utils from "../scripts/utils"
+import { gameChart } from "./chart"
 
 export let timerID
 export let timeToSolve
@@ -40,7 +41,7 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed">⟳</span>
   </div>
   `
-  
+
   // start game on click
   const button = document.createElement("button")
   button.id = "start-game-button"
@@ -48,9 +49,9 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
-  
+
   // get random seed on click
-  document.getElementById("random-seed").onclick = () => {insertRandSeed()}
+  document.getElementById("random-seed").onclick = () => { insertRandSeed() }
 }
 
 export const insertRandSeed = () => {
@@ -58,6 +59,7 @@ export const insertRandSeed = () => {
 }
 
 export const startGame = (container) => {
+  showFooterContent()
   // ...
   const dimx = Number(document.getElementById("dimx").value)
   const dimy = Number(document.getElementById("dimy").value)
@@ -124,11 +126,28 @@ export const timeDifference = (startTime) => {
   return Date.now() - startTime
 }
 
-// export const setRetryButton = () => {
-  document.querySelector("#retry-button").onclick = () => {
+export const showFooterContent = () => {
+  resetButton()
+}
+
+export const resetButton = () => {
+  const button = document.querySelector(".backwards")
+  button.classList.add("visible")
+  button.onclick = () => {
     const container = document.querySelector("#container")
     container.innerHTML = ""
     renderSetupPage(container)
     resetTimer()
+    gameChart.destroy()
+    button.classList.remove("visible")
   }
+}
+
+// export const setRetryButton = () => {
+// document.querySelector("#retry-button").onclick = () => {
+//   const container = document.querySelector("#container")
+//   container.innerHTML = ""
+//   renderSetupPage(container)
+//   resetTimer()
+// }
 // }
