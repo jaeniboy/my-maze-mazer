@@ -1,5 +1,6 @@
 import Maze from "../scripts/script"
 import * as utils from "../scripts/utils"
+import { gameChart } from "./chart"
 
 export let timerID
 export let timeToSolve
@@ -40,17 +41,18 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed">⟳</span>
   </div>
   `
-  
+
   // start game on click
   const button = document.createElement("button")
   button.id = "start-game-button"
-  button.innerText = "Start Game"
+  // button.innerText = "Start Game"
+  button.innerHTML = "Start Game"
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
-  
+
   // get random seed on click
-  document.getElementById("random-seed").onclick = () => {insertRandSeed()}
+  document.getElementById("random-seed").onclick = () => { insertRandSeed() }
 }
 
 export const insertRandSeed = () => {
@@ -58,6 +60,7 @@ export const insertRandSeed = () => {
 }
 
 export const startGame = (container) => {
+  showFooterContent()
   // ...
   const dimx = Number(document.getElementById("dimx").value)
   const dimy = Number(document.getElementById("dimy").value)
@@ -114,6 +117,33 @@ export const startTimer = () => {
   }, 10)
 }
 
+export const resetTimer = () => {
+  clearInterval(timerID)
+  const timerElement = document.getElementById("timer-container")
+  timerElement.innerText = "00:00.00"
+}
+
 export const timeDifference = (startTime) => {
   return Date.now() - startTime
+}
+
+export const showFooterContent = () => {
+  resetButton()
+}
+
+export const resetButton = () => {
+  const button = document.querySelector(".backwards")
+  button.classList.add("visible")
+  button.onclick = () => {
+    const container = document.querySelector("#container")
+    container.innerHTML = ""
+    renderSetupPage(container)
+    resetTimer()
+    utils.destroyChart()
+    button.classList.remove("visible")
+  }
+}
+
+export const destroyChart = () => {
+  gameChart.destroy()
 }

@@ -1,5 +1,5 @@
 import { test, expect, vi, describe, afterAll } from "vitest";
-import { maxSquareSize, applySquareSize, renderSetupPage, startGame} from "../scripts/utils";
+import { maxSquareSize, applySquareSize, renderSetupPage, startGame, resetTimer} from "../scripts/utils";
 import * as utils from '../scripts/utils';
 import {JSDOM} from "jsdom"
 
@@ -83,6 +83,9 @@ describe("that game is started correctly",()=>{
             <input id="dimx" value="${x}">
             <input id="dimy" value="${y}">
             <input id="seed" value="1234">        
+        </div>
+        <div id="footer">
+            <div class="backwards"></div>
         </div>
     `)
 
@@ -194,4 +197,42 @@ test("that random seed value is iserted on click", () => {
     
     expect(firstRand).not.toBe(initSeed)
     expect(secondRand).not.toBe(firstRand)
+})
+
+test("that timer is resetted", ()=> {
+    const dom = new JSDOM(`
+        <div id='container'>
+            <div id='timer-container'></div>
+        </div>
+        `)
+
+    global.document = dom.window.document
+    const timer = document.getElementById("timer-container")
+    timer.innerText = "00:00.11"
+    utils.resetTimer()
+    expect(timer.innerText).toBe("00:00.00")
+})
+
+test("that back button works", () => {
+    const dom = new JSDOM(`
+        <div id="timer-container"></div>
+        <div id="container">
+            <div>some content...</div>
+        </div>
+        <div class="backwards">back</div>
+        `)
+
+    global.document = dom.window.document
+    const button = document.querySelector(".backwards")
+    utils.resetButton()
+    expect(button.classList.contains("visible")).toBeTruthy()
+    
+    const spyDestroyChart = vi.spyOn(utils, "destroyChart").mockImplementation(()=>{})
+    button.click()
+    expect(button.classList.contains("visible")).toBeFalsy()
+    expect(document.querySelector("#timer-container").innerText).toBe("00:00.00")
+    expect(document.querySelector("#container").innerHTML).toMatchSnapshot()
+    expect(spyDestroyChart).toHaveBeenCalled()
+
+    vi.resetAllMocks()
 })
