@@ -114,6 +114,21 @@ export const startTimer = () => {
   }, 10)
 }
 
+export const resetTimer = () => {
+  clearInterval(timerID)
+  const timerElement = document.getElementById("timer-container")
+  timerElement.innerText = "00:00.00"
+}
+
 export const timeDifference = (startTime) => {
   return Date.now() - startTime
 }
+
+// export const setRetryButton = () => {
+  document.querySelector("#retry-button").onclick = () => {
+    const container = document.querySelector("#container")
+    container.innerHTML = ""
+    renderSetupPage(container)
+    resetTimer()
+  }
+// }
