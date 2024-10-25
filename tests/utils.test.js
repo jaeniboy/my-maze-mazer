@@ -1,5 +1,5 @@
 import { test, expect, vi, describe, afterAll } from "vitest";
-import { maxSquareSize, applySquareSize, renderSetupPage, startGame} from "../scripts/utils";
+import { maxSquareSize, applySquareSize, renderSetupPage, startGame, resetTimer} from "../scripts/utils";
 import * as utils from '../scripts/utils';
 import {JSDOM} from "jsdom"
 
@@ -197,4 +197,18 @@ test("that random seed value is iserted on click", () => {
     
     expect(firstRand).not.toBe(initSeed)
     expect(secondRand).not.toBe(firstRand)
+})
+
+test("that timer is resetted", ()=> {
+    const dom = new JSDOM(`
+        <div id='container'>
+            <div id='timer-container'></div>
+        </div>
+        `)
+
+    global.document = dom.window.document
+    const timer = document.getElementById("timer-container")
+    timer.innerText = "00:00.11"
+    utils.resetTimer()
+    expect(timer.innerText).toBe("00:00.00")
 })
