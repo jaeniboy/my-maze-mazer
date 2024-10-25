@@ -212,3 +212,27 @@ test("that timer is resetted", ()=> {
     utils.resetTimer()
     expect(timer.innerText).toBe("00:00.00")
 })
+
+test("that back button works", () => {
+    const dom = new JSDOM(`
+        <div id="timer-container"></div>
+        <div id="container">
+            <div>some content...</div>
+        </div>
+        <div class="backwards">back</div>
+        `)
+
+    global.document = dom.window.document
+    const button = document.querySelector(".backwards")
+    utils.resetButton()
+    expect(button.classList.contains("visible")).toBeTruthy()
+    
+    const spyDestroyChart = vi.spyOn(utils, "destroyChart").mockImplementation(()=>{})
+    button.click()
+    expect(button.classList.contains("visible")).toBeFalsy()
+    expect(document.querySelector("#timer-container").innerText).toBe("00:00.00")
+    expect(document.querySelector("#container").innerHTML).toMatchSnapshot()
+    expect(spyDestroyChart).toHaveBeenCalled()
+
+    vi.resetAllMocks()
+})

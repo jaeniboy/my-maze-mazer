@@ -45,7 +45,8 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   // start game on click
   const button = document.createElement("button")
   button.id = "start-game-button"
-  button.innerText = "Start Game"
+  // button.innerText = "Start Game"
+  button.innerHTML = "Start Game"
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
@@ -138,16 +139,11 @@ export const resetButton = () => {
     container.innerHTML = ""
     renderSetupPage(container)
     resetTimer()
-    gameChart.destroy()
+    utils.destroyChart()
     button.classList.remove("visible")
   }
 }
 
-// export const setRetryButton = () => {
-// document.querySelector("#retry-button").onclick = () => {
-//   const container = document.querySelector("#container")
-//   container.innerHTML = ""
-//   renderSetupPage(container)
-//   resetTimer()
-// }
-// }
+export const destroyChart = () => {
+  gameChart.destroy()
+}
