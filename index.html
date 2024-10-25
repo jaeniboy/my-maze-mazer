@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=0">
+  <link rel="shortcut icon" type="image/png" href="logo_small_2.png" />
+  <link rel="apple-touch-icon" href="logo_small_2.png" />
+  <!-- <link rel="manifest" href="manifest.json" /> -->
+  <link rel="icon" href="/my-maze-mazer/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/my-maze-mazer/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/my-maze-mazer/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/my-maze-mazer/favicon-16x16.png">
+  <link rel="mask-icon" href="/masked-icon.png" color="#EDF1E6">
+  <meta name="theme-color" content="#EDF1E6">
+  <title>Maze</title>
+  <script type="module" crossorigin src="/my-maze-mazer/assets/index-Dq_SmIMB.js"></script>
+  <link rel="stylesheet" crossorigin href="/my-maze-mazer/assets/index-BYnz8AQc.css">
+<link rel="manifest" href="/my-maze-mazer/manifest.webmanifest"></head>
+
+<body>
+  <div id="content">
+
+    <div id="header">
+      <div>
+        <div id="headline-container">
+          <h1>
+            Maze-Racer
+          </h1>
+        </div>
+        <div id="timer-container">
+          00:00.00
+        </div>
+      </div>
+    </div>
+    <div id="container"></div>
+    <div id="footer">footer</div>
+  </div>
+  <div class="popup-overlay">
+    <div class="popup-content">
+      <span class="close-button">&times;</span>
+      <h2 class="popup-header">Great!</h2>
+      <p class="popup-description">You've found your way in <span id="result"></span> seconds. That's <span id="grading"></span>!</p>
+      <div class="popup-chart">
+        <!-- Interactive chart will go here -->
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="player-list-container">
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
