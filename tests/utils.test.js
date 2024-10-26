@@ -236,3 +236,28 @@ test("that back button works", () => {
 
     vi.resetAllMocks()
 })
+
+test.skip("that settings are written to local storage", () => {
+    const dom = new JSDOM(`
+        <div id="container">
+            <label for="dimx">Anzahl x:</label>
+            <input type="text" id="dimx" name="x" value="10">
+            <label for="dimy">Anzahl y:</label>
+            <input type="text" id="dimy" name="y" value="10">
+            <label for="seed">Seed:</label>
+            <div id="seed-input-area">
+            <input type="text" id="seed" name="seed" value="12345"><span id="random-seed">⟳</span>
+            </div>
+        </div>
+        `)
+    global.document = dom.window.document
+
+    utils.writeInputToLocal()
+    const inputDimx = document.getElementById("dimx")
+    inputDimx.setAttribute("value",12)
+    inputDimx.dispatchEvent(new Event("input", {bubbles: true, composed: true}))
+    // utils.testLocalStor#age()
+    // inputDimx.
+    const cont = document.querySelector("#container")
+    console.log(localStorage.length)
+})

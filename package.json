@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "test": "vitest",
-    "build": "vite build",
+    "build": "vite build --base=/my-maze-mazer/",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
