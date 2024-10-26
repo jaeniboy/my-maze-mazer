@@ -86,6 +86,8 @@ describe("that game is started correctly",()=>{
         </div>
         <div id="footer">
             <div class="backwards"></div>
+            <div class="maze-info"></div>
+            <div class="download"></div>
         </div>
     `)
 
@@ -213,23 +215,32 @@ test("that timer is resetted", ()=> {
     expect(timer.innerText).toBe("00:00.00")
 })
 
-test("that back button works", () => {
+test("that footer content visibility toggles", () => {
     const dom = new JSDOM(`
         <div id="timer-container"></div>
         <div id="container">
             <div>some content...</div>
         </div>
-        <div class="backwards">back</div>
+        <div id="footer">
+            <div class="backwards">back</div>
+            <div class="maze-info">seed</div>
+            <div class="download">back</div>
+        </div>
         `)
 
     global.document = dom.window.document
     const button = document.querySelector(".backwards")
-    utils.resetButton()
+    utils.showFooterContent()
     expect(button.classList.contains("visible")).toBeTruthy()
+    expect(document.querySelector(".maze-info").classList.contains("visible")).toBeTruthy()
     
     const spyDestroyChart = vi.spyOn(utils, "destroyChart").mockImplementation(()=>{})
     button.click()
+
     expect(button.classList.contains("visible")).toBeFalsy()
+    expect(document.querySelector(".maze-info").classList.contains("visible")).toBeFalsy()
+    expect(document.querySelector(".download").classList.contains("visible")).toBeFalsy()
+
     expect(document.querySelector("#timer-container").innerText).toBe("00:00.00")
     expect(document.querySelector("#container").innerHTML).toMatchSnapshot()
     expect(spyDestroyChart).toHaveBeenCalled()

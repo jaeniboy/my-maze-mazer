@@ -51,7 +51,7 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   div.appendChild(button)
   container.appendChild(div)
   readInputFromLocal()
-  writeInputToLocal()
+  // writeInputToLocal()
 
   // get random seed on click
   document.getElementById("random-seed").onclick = () => { insertRandSeed() }
@@ -59,9 +59,9 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
 
 export const writeInputToLocal = () => {
   document.querySelectorAll("#setup-container input").forEach(input => {
-    input.addEventListener('input', function() {
-      localStorage.setItem(this.id, this.value);
-    });
+    // input.addEventListener('input', function() {
+      localStorage.setItem(input.id, input.value);
+    // });
   });
 }
 
@@ -79,6 +79,7 @@ export const insertRandSeed = () => {
 }
 
 export const startGame = (container) => {
+  writeInputToLocal()
   showFooterContent()
   // ...
   const dimx = Number(document.getElementById("dimx").value)
@@ -148,19 +149,30 @@ export const timeDifference = (startTime) => {
 
 export const showFooterContent = () => {
   resetButton()
+  mazeInfo()
 }
 
 export const resetButton = () => {
   const button = document.querySelector(".backwards")
   button.classList.add("visible")
   button.onclick = () => {
+    // remove footer elements
+    const footerElements = [...document.querySelector("#footer").children]
+    footerElements.forEach(d=>d.classList.remove("visible"))
+    // remove maze
     const container = document.querySelector("#container")
     container.innerHTML = ""
+    // re-create setup page
     renderSetupPage(container)
     resetTimer()
     utils.destroyChart()
-    button.classList.remove("visible")
   }
+}
+
+export const mazeInfo = () => {
+  const mazeInfo = document.querySelector(".maze-info")
+  mazeInfo.classList.add("visible")
+  mazeInfo.innerHTML = `Seed: ${localStorage.getItem("seed")} (${localStorage.getItem("dimx")} x ${localStorage.getItem("dimy")})`
 }
 
 export const destroyChart = () => {
