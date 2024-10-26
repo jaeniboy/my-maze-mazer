@@ -1,5 +1,6 @@
 import { renderSetupPage } from "./scripts/utils.js"
 import { registerSW } from "virtual:pwa-register";
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 // add this to prompt for a refresh
 const updateSW = registerSW({
