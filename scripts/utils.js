@@ -50,13 +50,32 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
+  readInputFromLocal()
+  writeInputToLocal()
 
   // get random seed on click
   document.getElementById("random-seed").onclick = () => { insertRandSeed() }
 }
 
+export const writeInputToLocal = () => {
+  document.querySelectorAll("#setup-container input").forEach(input => {
+    input.addEventListener('input', function() {
+      localStorage.setItem(this.id, this.value);
+    });
+  });
+}
+
+export const readInputFromLocal = () => {
+  document.querySelectorAll("#setup-container input").forEach(input => {
+    const savedValue = localStorage.getItem(input.id);
+    if (savedValue) input.value = savedValue;
+  });
+}
+
 export const insertRandSeed = () => {
-  document.getElementById("seed").value = Math.floor(Math.random() * 100000)
+  const randValue = Math.floor(Math.random() * 100000)
+  document.getElementById("seed").value = randValue
+  localStorage.setItem("seed",randValue)
 }
 
 export const startGame = (container) => {
