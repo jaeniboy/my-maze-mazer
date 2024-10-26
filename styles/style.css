@@ -12,11 +12,11 @@ body {
   overscroll-behavior-y: contain;
   background-color: var(--background);
   user-select: none;
+  margin: 0px;
 }
 
 body {
   font-family: "curier new", monospace;
-  margin: 0px 10px;
 }
 
 #content {
