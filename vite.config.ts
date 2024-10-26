@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config'
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/',//'/my-maze-mazer/', // this could lead to trouble when published on gh-pages
+  base: '/',
   test: {
     globals: true,
     environment: "jsdom",
