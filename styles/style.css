@@ -6,6 +6,9 @@
 
 html,
 body {
+  height: 100%;
+  width: 100%; 
+  position: fixed;
   overscroll-behavior-y: contain;
   background-color: var(--background);
   user-select: none;
@@ -19,7 +22,7 @@ body {
 #content {
   display: flex;
   flex-flow: column;
-  height: 100vh;
+  height: 100%;
 }
 
 #header {
