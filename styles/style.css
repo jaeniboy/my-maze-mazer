@@ -73,6 +73,7 @@ body {
   height: 5vh;
   display: flex;
   justify-content: space-between;
+  /* justify-content: space-around; */
 }
 
 /* footer content */
@@ -89,6 +90,7 @@ body {
 .download {
   visibility: hidden;
   cursor: pointer;
+  font-size: 1.2em;
 }
 
 /* game content */
