@@ -172,7 +172,7 @@ export const resetButton = () => {
 export const mazeInfo = () => {
   const mazeInfo = document.querySelector(".maze-info")
   mazeInfo.classList.add("visible")
-  mazeInfo.innerHTML = `Seed: ${localStorage.getItem("seed")} (${localStorage.getItem("dimx")} x ${localStorage.getItem("dimy")})`
+  mazeInfo.innerHTML = `${localStorage.getItem("seed")} (${localStorage.getItem("dimx")}x${localStorage.getItem("dimy")})`
 }
 
 export const destroyChart = () => {
