@@ -39,7 +39,7 @@ exports[`that chart is added to dom 3`] = `
   "position": "start",
   "type": "label",
   "xValue": 7.75,
-  "yValue": 2.4,
+  "yValue": 3,
 }
 `;
 

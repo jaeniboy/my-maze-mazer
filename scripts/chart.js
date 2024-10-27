@@ -6,7 +6,6 @@ export let gameChart = null
 
 // generate chart data
 
-
 export const getSecondsFromTimeString = (timestring) => {
     const [minutes, seconds] = timestring.split(':');
     const totalSeconds = parseInt(minutes) * 60 + parseFloat(seconds);
@@ -23,7 +22,6 @@ export const getDistributionFromData = (playertime, data, maxSeconds = 15) => {
         result[index]++;
       }
     });
-    console.log(result)
     return result;
   }
 
@@ -47,13 +45,17 @@ Chart.defaults.font.family = '"curier new", monospace'
 
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
+    data = [...data,0,0,0]
     const maxValue = Math.max(...data)
-    const leftLabel = false // todo
+    const indexFirstVal = data[0] === 0 ? data.findIndex(d=>d>0) : 0
+    const indexLastVal = data.findIndex((d,key)=>key>indexFirstVal && d == 0)
+    const labels = data.map((d,i)=>i)
+    const leftLabel = playerTime > indexLastVal ? true : false // todo
     gameChart = new Chart(ctx, {
         type: 'bar',
         data: {
             // generate labels based on array length
-            labels: data.map((d,i)=>i),
+            labels: labels,
             datasets: [{
                 data: data,
                 barPercentage: 0.95,
@@ -69,6 +71,8 @@ export const chart = (playerTime, data) => {
                     display: false,
                 },
                 x: {
+                    min: indexFirstVal - 4,
+                    max: indexLastVal + 4,
                     grid: {
                         display: false,
                     },
@@ -77,6 +81,12 @@ export const chart = (playerTime, data) => {
                         crossAlign: "center",
                         padding: 3,
                         labelOffset: -7,
+                        callback: (value) => {
+                            return floatToTimeString(value).split(".")[0]
+                        },
+                        font: {
+                            size: 12,
+                        },
                     }
                 },   
             },
@@ -101,8 +111,6 @@ export const chart = (playerTime, data) => {
                           xMax: playerTime,
                           yMin: 0,
                           yMax: maxValue * 1.5,
-                        //   xMin: 2.2,
-                        //   xMax: 2.2,
                           borderColor: '#aa5a4e',
                           borderWidth: 3,
                           backgroundColor: "white"
@@ -112,9 +120,7 @@ export const chart = (playerTime, data) => {
                             position: leftLabel ? "end" : "start",
                             padding: 2,
                             xValue: playerTime,
-                            // xValue: 2.2,
-                            yValue: maxValue * 1.2,
-                            // yValue: 22,
+                            yValue: leftLabel ? maxValue * 1.2 : maxValue * 1.5,
                             content: leftLabel ? ['your time ⤻ '] : [' ⤺ your time'],
                             font: {
                               size: 12
