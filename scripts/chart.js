@@ -22,7 +22,6 @@ export const getDistributionFromData = (playertime, data, maxSeconds = 15) => {
         result[index]++;
       }
     });
-    console.log(result)
     return result;
   }
 

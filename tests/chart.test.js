@@ -38,7 +38,8 @@ test("that chart is added to dom", () => {
       // Stub the global ResizeObserver
       vi.stubGlobal('ResizeObserver', ResizeObserverMock);
     
-    const fakeData = [0,0,0,0,0,0,1,2,2,2,1,0,0,0,0]
+    const fakeData = [0,0,0,0,0,0,1,2,2,2,1,0]
+    const fakeLabels = [...fakeData,0,0,0].map((d,i)=>i)
     const fakePlayerTime = 7.75
     chart(fakePlayerTime, fakeData)
 
@@ -48,17 +49,18 @@ test("that chart is added to dom", () => {
     // check that charts main configs are correct
     const thisChart = Chart.getChart("myChart").config._config
     expect(thisChart.type).toBe("bar")
+    expect(thisChart.data.datasets[0].data).toEqual([...fakeData,0,0,0])
     expect(thisChart.data.labels).toEqual([
         0,  1,  2,  3,  4,  5,
         6,  7,  8,  9, 10, 11,
         12,13,14
      ])
-    expect(thisChart.data.datasets[0].data).toEqual(fakeData)
     expect(thisChart.options.elements).toMatchSnapshot()
     expect(thisChart.options.plugins.legend.display).toBeFalsy()
     expect(thisChart.options.plugins.annotation.annotations.line1).toMatchSnapshot()
     expect(thisChart.options.plugins.annotation.annotations.label1).toMatchSnapshot()
     expect(thisChart.options.layout.padding).toMatchSnapshot()
+    console.log(thisChart)
 
     vi.resetAllMocks()
 
