@@ -47,13 +47,17 @@ Chart.defaults.font.family = '"curier new", monospace'
 
 export const chart = (playerTime, data) => {
     const ctx = document.getElementById('myChart');
+    data = [...data,0,0,0]
     const maxValue = Math.max(...data)
-    const leftLabel = false // todo
+    const indexFirstVal = data[0] === 0 ? data.findIndex(d=>d>0) : 0
+    const indexLastVal = data.findIndex((d,key)=>key>indexFirstVal && d == 0)
+    const labels = data.map((d,i)=>i)
+    const leftLabel = playerTime > indexLastVal ? true : false // todo
     gameChart = new Chart(ctx, {
         type: 'bar',
         data: {
             // generate labels based on array length
-            labels: data.map((d,i)=>i),
+            labels: labels,
             datasets: [{
                 data: data,
                 barPercentage: 0.95,
@@ -69,6 +73,8 @@ export const chart = (playerTime, data) => {
                     display: false,
                 },
                 x: {
+                    min: indexFirstVal - 4,
+                    max: indexLastVal + 4,
                     grid: {
                         display: false,
                     },
@@ -113,7 +119,7 @@ export const chart = (playerTime, data) => {
                             padding: 2,
                             xValue: playerTime,
                             // xValue: 2.2,
-                            yValue: maxValue * 1.2,
+                            yValue: leftLabel ? maxValue * 1.2 : maxValue * 1.5,
                             // yValue: 22,
                             content: leftLabel ? ['your time ⤻ '] : [' ⤺ your time'],
                             font: {
