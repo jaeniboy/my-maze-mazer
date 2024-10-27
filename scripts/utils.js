@@ -14,6 +14,29 @@ export const maxSquareSize = (dimx, dimy, container) => {
   ))
 }
 
+export const sizeRecommended = () => {
+  const container = document.querySelector("#container")
+  const numX = Math.floor(container.offsetWidth / 11)
+  const numY = Math.floor(container.offsetHeight / 11)
+  return {x: numX, y: numY}
+} 
+
+export const sizeOptions = () => {
+  const startValue = 7
+  const maxValues = sizeRecommended()
+
+  const createOptions = (value) => {
+    return new Array(1 + value - startValue)
+      .fill(0)
+      .map((d,i)=>{
+        const val = i + startValue
+        return `<option ${val === 10 ? "selected" : ""}>${val}</option>`})
+  }
+
+  document.querySelector("#select-dimx").innerHTML = createOptions(maxValues.x)
+  document.querySelector("#select-dimy").innerHTML = createOptions(maxValues.y)
+} 
+
 export const applySquareSize = (dimx, dimy, container, doc = document) => {
   // compute square size
   // const size = maxSquareSize(dimx,dimy,container)
@@ -36,6 +59,10 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   <input type="text" id="dimx" name="x" value="${defaults.x}">
   <label for="dimy">Anzahl y:</label>
   <input type="text" id="dimy" name="y" value="${defaults.y}">
+  <label for="select-dimx">Anzahl x:</label>
+  <select type="text" id="select-dimx" name="select-x"></select>
+  <label for="select-dimy">Anzahl y:</label>
+  <select type="text" id="select-dimy" name="select-y"></select>
   <label for="seed">Seed:</label>
   <div id="seed-input-area">
   <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed">⟳</span>
@@ -55,6 +82,13 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
 
   // get random seed on click
   document.getElementById("random-seed").onclick = () => { insertRandSeed() }
+
+  // apply field size selection options
+  sizeOptions()
+  window.onresize = () => {
+    sizeOptions()
+  }
+
 }
 
 export const writeInputToLocal = () => {
