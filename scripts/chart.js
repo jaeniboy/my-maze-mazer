@@ -6,7 +6,6 @@ export let gameChart = null
 
 // generate chart data
 
-
 export const getSecondsFromTimeString = (timestring) => {
     const [minutes, seconds] = timestring.split(':');
     const totalSeconds = parseInt(minutes) * 60 + parseFloat(seconds);
@@ -83,6 +82,12 @@ export const chart = (playerTime, data) => {
                         crossAlign: "center",
                         padding: 3,
                         labelOffset: -7,
+                        callback: (value) => {
+                            return floatToTimeString(value).split(".")[0]
+                        },
+                        font: {
+                            size: 12,
+                        },
                     }
                 },   
             },
@@ -107,8 +112,6 @@ export const chart = (playerTime, data) => {
                           xMax: playerTime,
                           yMin: 0,
                           yMax: maxValue * 1.5,
-                        //   xMin: 2.2,
-                        //   xMax: 2.2,
                           borderColor: '#aa5a4e',
                           borderWidth: 3,
                           backgroundColor: "white"
@@ -118,9 +121,7 @@ export const chart = (playerTime, data) => {
                             position: leftLabel ? "end" : "start",
                             padding: 2,
                             xValue: playerTime,
-                            // xValue: 2.2,
                             yValue: leftLabel ? maxValue * 1.2 : maxValue * 1.5,
-                            // yValue: 22,
                             content: leftLabel ? ['your time ⤻ '] : [' ⤺ your time'],
                             font: {
                               size: 12
