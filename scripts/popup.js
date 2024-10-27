@@ -76,6 +76,7 @@ export const animateCloseButton= () => {
 // add player data to html
 const addPlayerData = (names, times) => {
     const playerListContainer = document.querySelector('.player-list-container');
+    playerListContainer.innerHTML = "";
     const playerListHTML = generatePlayerListHTML(names, times);
     playerListContainer.appendChild(playerListHTML);
 }
