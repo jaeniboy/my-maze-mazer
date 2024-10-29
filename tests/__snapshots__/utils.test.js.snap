@@ -2,13 +2,17 @@
 
 exports[`that footer content visibility toggles 1`] = `
 "<div id="setup-container">
-  <label for="select-dimx">Anzahl x:</label>
-  <select type="text" id="select-dimx" name="select-x"></select>
-  <label for="select-dimy">Anzahl y:</label>
-  <select type="text" id="select-dimy" name="select-y"></select>
-  <label for="seed">Seed:</label>
+  <label>Size: <i class="bi bi-info-circle" id="size-info"></i></label>
+  <div id="size-selections">
+    <div>
+      <i class="bi bi-arrows"></i><select type="text" id="select-dimx" name="select-x"></select>
+    </div>
+    <div>
+      <i class="bi bi-arrows-vertical"></i><select type="text" id="select-dimy" name="select-y"></select></div>
+    </div>
+  <label for="seed">Seed: <i class="bi bi-info-circle" id="seed-info"></i></label>
   <div id="seed-input-area">
-  <input type="text" id="seed" name="seed" value="12345"><span id="random-seed">⟳</span>
+  <input type="text" id="seed" name="seed" value="12345"><span id="random-seed"><i class="bi bi-arrow-clockwise"></i></span>
   </div>
   <button id="start-game-button">Start Game</button></div>"
 `;

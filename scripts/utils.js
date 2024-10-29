@@ -62,29 +62,35 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   div.id = "setup-container"
   div.innerHTML =
   `
-  <label for="select-dimx">Anzahl x:</label>
-  <select type="text" id="select-dimx" name="select-x"></select>
-  <label for="select-dimy">Anzahl y:</label>
-  <select type="text" id="select-dimy" name="select-y"></select>
-  <label for="seed">Seed:</label>
+  <label>Size: <i class="bi bi-info-circle" id="size-info"></i></label>
+  <div id="size-selections">
+    <div>
+      <i class="bi bi-arrows"></i><select type="text" id="select-dimx" name="select-x"></select>
+    </div>
+    <div>
+      <i class="bi bi-arrows-vertical"></i><select type="text" id="select-dimy" name="select-y"></select></div>
+    </div>
+  <label for="seed">Seed: <i class="bi bi-info-circle" id="seed-info"></i></label>
   <div id="seed-input-area">
-  <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed">⟳</span>
+  <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed"><i class="bi bi-arrow-clockwise"></i></span>
   </div>
   `
 
   // start game on click
   const button = document.createElement("button")
   button.id = "start-game-button"
-  // button.innerText = "Start Game"
   button.innerHTML = "Start Game"
   button.onclick = () => utils.startGame(container)
   div.appendChild(button)
   container.appendChild(div)
   readInputFromLocal()
-  // writeInputToLocal()
 
   // get random seed on click
   document.getElementById("random-seed").onclick = () => { insertRandSeed() }
+
+  // show info on click
+  document.querySelector("#size-info").onclick = () => { sizeInfo()}
+  document.querySelector("#seed-info").onclick = () => { seedInfo()}
 
   // apply field size selection options
   utils.sizeOptions()
@@ -217,4 +223,12 @@ export const mazeInfo = () => {
 
 export const destroyChart = () => {
   gameChart.destroy()
+}
+
+export const sizeInfo = () => {
+  window.alert("Choose the number of blocks vertically and horizontally. Available options depend on your screen size to prevent blocks becoming too small to use.")
+}
+
+export const seedInfo = () => {
+  window.alert("Mazes that share the same dimensions and seed values are generated in the same manner each time. You can choose any string as a seed, from common words to random combinations of numbers and characters.")
 }

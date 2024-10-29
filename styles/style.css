@@ -53,12 +53,40 @@ body {
 }
 
 #setup-container>label {
-  margin-top: 0.7em;
-  margin-bottom: 0.1em;
+  margin-top: 1.7em;
+  margin-bottom: 0.6em;
+}
+
+#setup-container>label>.bi {
+  font-size: 12px;
+  cursor: pointer;
 }
 
 #setup-container>button {
   margin-top: 3em;
+}
+
+#size-selections {
+  display: flex;
+  justify-content: space-between;
+}
+
+#size-selections .bi,
+#random-seed > .bi {
+  font-size: 20px;
+}
+
+#size-selections > div > select {
+  /* margin-left: 1em; */
+  width: 4.5em;
+}
+
+#size-selections > div > .bi-arrows {
+  margin-right: 0.8em;
+}
+
+#size-selections > div > .bi-arrows-vertical {
+  margin-right: 0.4em;
 }
 
 #seed-input-area {
