@@ -1,24 +1,11 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`that back button works 1`] = `
-"<div id="setup-container">
-  <label for="dimx">Anzahl x:</label>
-  <input type="text" id="dimx" name="x" value="10">
-  <label for="dimy">Anzahl y:</label>
-  <input type="text" id="dimy" name="y" value="10">
-  <label for="seed">Seed:</label>
-  <div id="seed-input-area">
-  <input type="text" id="seed" name="seed" value="12345"><span id="random-seed">⟳</span>
-  </div>
-  <button id="start-game-button">Start Game</button></div>"
-`;
-
 exports[`that footer content visibility toggles 1`] = `
 "<div id="setup-container">
-  <label for="dimx">Anzahl x:</label>
-  <input type="text" id="dimx" name="x" value="10">
-  <label for="dimy">Anzahl y:</label>
-  <input type="text" id="dimy" name="y" value="10">
+  <label for="select-dimx">Anzahl x:</label>
+  <select type="text" id="select-dimx" name="select-x"></select>
+  <label for="select-dimy">Anzahl y:</label>
+  <select type="text" id="select-dimy" name="select-y"></select>
   <label for="seed">Seed:</label>
   <div id="seed-input-area">
   <input type="text" id="seed" name="seed" value="12345"><span id="random-seed">⟳</span>

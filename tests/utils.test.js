@@ -49,13 +49,17 @@ describe("that setup page is build correctly", ()=>{
     const container = document.getElementById("container")
 
     // renderSetupPage(container)
+    vi.spyOn(utils, "sizeRecommended").mockReturnValue({x: 20, y: 30})
     utils.renderSetupPage(container)
 
-    test("that input fields exist",()=>{
+    test("that select and input fields exist",()=>{
+        const selects = container.getElementsByTagName("select")
+        expect(selects.length).toBe(2)
+        const selectIDs = [...selects].map(d=>d.id)
+        expect(selectIDs).toEqual(["select-dimx", "select-dimy"])
         const inputs = container.getElementsByTagName("input")
-        expect(inputs.length).toBe(3)
-        const inputIDs = [...inputs].map(d=>d.id)
-        expect(inputIDs).toEqual(["dimx", "dimy", "seed"])
+        expect(inputs.length).toBe(1)
+        expect(inputs[0].id).toBe("seed")
     })
     
     const button = container.getElementsByTagName("button")
@@ -80,8 +84,12 @@ describe("that game is started correctly",()=>{
 
     const dom = new JSDOM(`
         <div id="container">
-            <input id="dimx" value="${x}">
-            <input id="dimy" value="${y}">
+            <select id="select-dimx" value="${x}">
+                <option selected>${x}</option>
+            </select>
+            <select id="select-dimy" value="${y}">
+                <option selected>${y}</option>
+            </select>
             <input id="seed" value="1234">        
         </div>
         <div id="footer">
@@ -226,6 +234,7 @@ test("that footer content visibility toggles", () => {
             <div class="maze-info">seed</div>
             <div class="download">back</div>
         </div>
+        <input id="seed">1234</input>
         `)
 
     global.document = dom.window.document
@@ -235,6 +244,7 @@ test("that footer content visibility toggles", () => {
     expect(document.querySelector(".maze-info").classList.contains("visible")).toBeTruthy()
     
     const spyDestroyChart = vi.spyOn(utils, "destroyChart").mockImplementation(()=>{})
+    const spySizeOptions = vi.spyOn(utils, "sizeOptions").mockImplementation(()=>{})
     button.click()
 
     expect(button.classList.contains("visible")).toBeFalsy()
@@ -242,8 +252,10 @@ test("that footer content visibility toggles", () => {
     expect(document.querySelector(".download").classList.contains("visible")).toBeFalsy()
 
     expect(document.querySelector("#timer-container").innerText).toBe("00:00.00")
+    console.log(document.querySelector("#timer-container").innerHTML)
     expect(document.querySelector("#container").innerHTML).toMatchSnapshot()
     expect(spyDestroyChart).toHaveBeenCalled()
+    expect(spySizeOptions).toHaveBeenCalled()
 
     vi.resetAllMocks()
 })
@@ -270,5 +282,26 @@ test.skip("that settings are written to local storage", () => {
     // utils.testLocalStor#age()
     // inputDimx.
     const cont = document.querySelector("#container")
-    console.log(localStorage.length)
+})
+
+test("that size recommendations work",()=>{
+
+    const width = 200
+    const height = 400
+
+    const dom = new JSDOM(
+        `
+        <div id="container"></div>
+        `
+    )
+
+    global.document = dom.window.document
+    const container = document.querySelector("#container")
+    vi.spyOn(container, 'offsetHeight', 'get').mockImplementation(() => height)
+    vi.spyOn(container, 'offsetWidth', 'get').mockImplementation(() => width)
+
+    const rec = utils.sizeRecommended()
+    expect(rec).toStrictEqual({x: 18, y: 36})
+
+    vi.restoreAllMocks()
 })

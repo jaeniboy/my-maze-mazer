@@ -23,18 +23,25 @@ export const sizeRecommended = () => {
 
 export const sizeOptions = () => {
   const startValue = 7
-  const maxValues = sizeRecommended()
+  const maxValues = utils.sizeRecommended()
 
   const createOptions = (value) => {
     return new Array(1 + value - startValue)
       .fill(0)
       .map((d,i)=>{
         const val = i + startValue
-        return `<option ${val === 10 ? "selected" : ""}>${val}</option>`})
+        return `<option>${val}</option>`})
   }
 
-  document.querySelector("#select-dimx").innerHTML = createOptions(maxValues.x)
-  document.querySelector("#select-dimy").innerHTML = createOptions(maxValues.y)
+  const dimx = document.querySelector("#select-dimx")
+  dimx.innerHTML = createOptions(maxValues.x)
+  const dimxLocal = localStorage.getItem("select-dimx") 
+  dimx.value = dimxLocal ? dimxLocal : 10
+
+  const dimy = document.querySelector("#select-dimy")
+  dimy.innerHTML = createOptions(maxValues.y)
+  const dimyLocal = localStorage.getItem("select-dimy") 
+  dimy.value = dimyLocal ? dimyLocal : 10
 } 
 
 export const applySquareSize = (dimx, dimy, container, doc = document) => {
@@ -54,11 +61,7 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   const div = document.createElement("div")
   div.id = "setup-container"
   div.innerHTML =
-    `
-  <label for="dimx">Anzahl x:</label>
-  <input type="text" id="dimx" name="x" value="${defaults.x}">
-  <label for="dimy">Anzahl y:</label>
-  <input type="text" id="dimy" name="y" value="${defaults.y}">
+  `
   <label for="select-dimx">Anzahl x:</label>
   <select type="text" id="select-dimx" name="select-x"></select>
   <label for="select-dimy">Anzahl y:</label>
@@ -84,15 +87,16 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   document.getElementById("random-seed").onclick = () => { insertRandSeed() }
 
   // apply field size selection options
-  sizeOptions()
+  utils.sizeOptions()
   window.onresize = () => {
-    sizeOptions()
+    utils.sizeOptions()
   }
 
 }
 
 export const writeInputToLocal = () => {
-  document.querySelectorAll("#setup-container input").forEach(input => {
+  // document.querySelectorAll("#setup-container input").forEach(input => {
+  document.querySelectorAll("#setup-container select").forEach(input => {
     // input.addEventListener('input', function() {
       localStorage.setItem(input.id, input.value);
     // });
@@ -100,7 +104,8 @@ export const writeInputToLocal = () => {
 }
 
 export const readInputFromLocal = () => {
-  document.querySelectorAll("#setup-container input").forEach(input => {
+  // document.querySelectorAll("#setup-container input").forEach(input => {
+  document.querySelectorAll("#setup-container select").forEach(input => {
     const savedValue = localStorage.getItem(input.id);
     if (savedValue) input.value = savedValue;
   });
@@ -116,13 +121,12 @@ export const startGame = (container) => {
   writeInputToLocal()
   showFooterContent()
   // ...
-  const dimx = Number(document.getElementById("dimx").value)
-  const dimy = Number(document.getElementById("dimy").value)
+  const dimx = Number(document.getElementById("select-dimx").value)
+  const dimy = Number(document.getElementById("select-dimy").value)
   const seed = document.getElementById("seed").value
   const maze = new Maze(dimx, dimy, container, seed)
   maze.createFinalGrid()
   maze.addToContainer()
-  // applySquareSize(dimx, dimy, container)
   utils.applySquareSize(dimx, dimy, container)
 
   // set size of square based on screen width 
@@ -206,7 +210,9 @@ export const resetButton = () => {
 export const mazeInfo = () => {
   const mazeInfo = document.querySelector(".maze-info")
   mazeInfo.classList.add("visible")
-  mazeInfo.innerHTML = `${localStorage.getItem("seed")} (${localStorage.getItem("dimx")}x${localStorage.getItem("dimy")})`
+  const seedLocal = localStorage.getItem("seed")
+  const seedInput = document.querySelector("#seed").value
+  mazeInfo.innerHTML = `${seedLocal ? seedLocal : seedInput} (${localStorage.getItem("select-dimx")}x${localStorage.getItem("select-dimy")})`
 }
 
 export const destroyChart = () => {

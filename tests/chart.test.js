@@ -60,7 +60,6 @@ test("that chart is added to dom", () => {
     expect(thisChart.options.plugins.annotation.annotations.line1).toMatchSnapshot()
     expect(thisChart.options.plugins.annotation.annotations.label1).toMatchSnapshot()
     expect(thisChart.options.layout.padding).toMatchSnapshot()
-    console.log(thisChart)
 
     vi.resetAllMocks()
 
