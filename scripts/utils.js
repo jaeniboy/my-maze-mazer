@@ -110,11 +110,13 @@ export const writeInputToLocal = () => {
 }
 
 export const readInputFromLocal = () => {
-  // document.querySelectorAll("#setup-container input").forEach(input => {
   document.querySelectorAll("#setup-container select").forEach(input => {
     const savedValue = localStorage.getItem(input.id);
     if (savedValue) input.value = savedValue;
   });
+
+  const seedValue = localStorage.getItem("seed");
+  if (seedValue) document.querySelector("#seed").value = seedValue;
 }
 
 export const insertRandSeed = () => {
