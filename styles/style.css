@@ -117,10 +117,51 @@ body {
   visibility: hidden; 
 }
 
+/* Download section */
+
 .download {
   visibility: hidden;
   cursor: pointer;
   font-size: 1.2em;
+  position: relative;
+}
+
+#download-popup-overlay {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+}
+
+#download-popup {
+  /* display: none; */
+  cursor: initial;
+  position: absolute;
+  bottom: 1.5em;
+  right: 1em;
+  background-color: var(--background);
+  border-color: var(--wall);
+  border-radius: 3px;
+  border-width: 2px;
+  border-style: solid;
+  /* width: 7em; */
+  /* height: 2em; */
+  display: none;
+  justify-content:space-around;
+  align-items:center;
+  z-index: 2;
+}
+
+#download-popup > div {
+  padding: 0.7em 1.3em;
+  margin: 0.1em;
+  cursor: pointer;
+}
+
+#download-popup > div:hover {
+  background-color: var(--wall);
 }
 
 /* game content */
@@ -273,4 +314,12 @@ body {
 
 .visible {
   visibility: visible;
+}
+
+.flex {
+  display: flex !important;
+}
+
+.block {
+  display: block !important;
 }

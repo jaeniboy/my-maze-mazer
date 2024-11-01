@@ -1,6 +1,7 @@
 import Maze from "../scripts/script"
 import * as utils from "../scripts/utils"
 import { gameChart } from "./chart"
+import { download } from "./exports"
 
 export let timerID
 export let timeToSolve
@@ -162,7 +163,7 @@ export const startGame = (container) => {
 }
 
 export const startTimer = () => {
-  const timerElement = document.getElementById("timer-container")
+  const timerElement = document.querySelector("#timer-container")
   const startTime = Date.now();
 
   const timeFormat = (millis) => {
@@ -179,7 +180,8 @@ export const startTimer = () => {
     // const time = Date.now() - startTime
     const time = utils.timeDifference(startTime)
     timeToSolve = timeFormat(time)
-    timerElement.innerText = timeFormat(time) // (time/1000).toFixed(2)
+    // timerElement.innerText = timeFormat(time) // (time/1000).toFixed(2)
+    timerElement.innerHTML = timeFormat(time) // (time/1000).toFixed(2)
   }, 10)
 }
 
@@ -196,6 +198,7 @@ export const timeDifference = (startTime) => {
 export const showFooterContent = () => {
   resetButton()
   mazeInfo()
+  downloadOptions()
 }
 
 export const resetButton = () => {
@@ -221,6 +224,42 @@ export const mazeInfo = () => {
   const seedLocal = localStorage.getItem("seed")
   const seedInput = document.querySelector("#seed").value
   mazeInfo.innerHTML = `${seedLocal ? seedLocal : seedInput} (${localStorage.getItem("select-dimx")}x${localStorage.getItem("select-dimy")})`
+}
+
+export const downloadOptions = () => {
+  const downloadIcon = document.querySelector(".download")
+  downloadIcon.classList.add("visible")
+  downloadIcon.onclick = () => {
+    utils.addDownloadPopup()
+  }
+
+  const container = document.querySelector("#container")
+  document.getElementById("download-svg").onclick = (event)=> {
+    event.stopPropagation();
+    utils.removeDownloadPopup()
+    download(container, "svg")
+  }
+  document.querySelector("#download-png").onclick = (event)=> {
+    event.stopPropagation();
+    utils.removeDownloadPopup()
+    download(container, "png")
+  }
+  document.querySelector("#download-popup-overlay").onclick = ()=>{
+    utils.removeDownloadPopup()
+  }
+}
+
+export const addDownloadPopup = () => {
+  const downloadPopupOverlay = document.querySelector("#download-popup-overlay")
+  const downloadPopup = document.querySelector("#download-popup")
+
+  downloadPopupOverlay.classList.add("block")
+  downloadPopup.classList.add("flex")
+}
+
+export const removeDownloadPopup = () => {
+  document.querySelector("#download-popup-overlay").classList.remove("block")
+  document.querySelector("#download-popup").classList.remove("flex")
 }
 
 export const destroyChart = () => {
