@@ -1,6 +1,7 @@
-import { test, expect, vi, describe, afterAll } from "vitest";
+import { test, expect, vi, describe, beforeEach } from "vitest";
 import { maxSquareSize, applySquareSize, renderSetupPage, startGame, resetTimer} from "../scripts/utils";
 import * as utils from '../scripts/utils';
+import * as exp from "../scripts/exports";
 import {JSDOM} from "jsdom"
 
 test.each([
@@ -95,7 +96,15 @@ describe("that game is started correctly",()=>{
         <div id="footer">
             <div class="backwards"></div>
             <div class="maze-info"></div>
-            <div class="download"></div>
+            <div class="download">
+                <i class="bi bi-download"></i>
+                <div id="download-popup">
+                    <div id="download-png">PNG</div>
+                    <div id="download-svg">SVG</div>
+                </div>
+                </div>
+                <div id="download-popup-overlay">
+            </div>
         </div>
     `)
 
@@ -154,15 +163,13 @@ describe("time counter", () => {
       })
 
     afterEach(() => {
-    vi.restoreAllMocks()
+        vi.restoreAllMocks()
     })
 
-    const dom = new JSDOM("<div id='timer-container'>dummy</div>")
+    const dom = new JSDOM("<div id='container'><div id='timer-container'>dummy</div></div>")
     global.document = dom.window.document
-    const timerContainer = document.getElementById("timer-container")
-
+    const timerContainer = document.querySelector("#timer-container")
     test("that time is displayed correctly", () => {
-
         vi.spyOn(utils, "timeDifference")
             .mockReturnValueOnce(510)
             .mockReturnValueOnce(2000)
@@ -175,19 +182,19 @@ describe("time counter", () => {
         utils.startTimer()
 
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("00:00.51")
+        expect(timerContainer.innerHTML).toBe("00:00.51")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("00:02.00")
+        expect(timerContainer.innerHTML).toBe("00:02.00")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("00:02.51")
+        expect(timerContainer.innerHTML).toBe("00:02.51")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("00:20.00")
+        expect(timerContainer.innerHTML).toBe("00:20.00")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("03:20.00")
+        expect(timerContainer.innerHTML).toBe("03:20.00")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("20:34.57")
+        expect(timerContainer.innerHTML).toBe("20:34.57")
         vi.advanceTimersToNextTimer()
-        expect(timerContainer.innerText).toBe("100:00.00")
+        expect(timerContainer.innerHTML).toBe("100:00.00")
 
     })
 
@@ -232,7 +239,14 @@ test("that footer content visibility toggles", () => {
         <div id="footer">
             <div class="backwards">back</div>
             <div class="maze-info">seed</div>
-            <div class="download">back</div>
+            <div class="download">
+                <i class="bi bi-download"></i>
+                <div id="download-popup">
+                    <div id="download-png">PNG</div>
+                    <div id="download-svg">SVG</div>
+                </div>
+                <div id="download-popup-overlay">
+            </div>
         </div>
         <input id="seed">1234</input>
         `)
@@ -257,7 +271,7 @@ test("that footer content visibility toggles", () => {
     expect(spyDestroyChart).toHaveBeenCalled()
     expect(spySizeOptions).toHaveBeenCalled()
 
-    vi.resetAllMocks()
+    vi.restoreAllMocks()
 })
 
 test.skip("that settings are written to local storage", () => {
