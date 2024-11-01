@@ -15,8 +15,8 @@
   <link rel="mask-icon" href="/masked-icon.png" color="#EDF1E6">
   <meta name="theme-color" content="#EDF1E6">
   <title>Maze</title>
-  <script type="module" crossorigin src="/my-maze-mazer/assets/index-BVz56aBJ.js"></script>
-  <link rel="stylesheet" crossorigin href="/my-maze-mazer/assets/index-DIf28iar.css">
+  <script type="module" crossorigin src="/my-maze-mazer/assets/index-uy0Kdrh8.js"></script>
+  <link rel="stylesheet" crossorigin href="/my-maze-mazer/assets/index-B7imsONC.css">
 <link rel="manifest" href="/my-maze-mazer/manifest.webmanifest"></head>
 
 <body>
@@ -39,9 +39,16 @@
     <div id="footer">
       <div class="backwards"><i class="bi bi-arrow-left"></i> back</div>
       <div class="maze-info">Maze-Info</div>
-      <div class="download"><i class="bi bi-download"></i></div>
+      <div class="download">
+        <i class="bi bi-download"></i>
+        <div id="download-popup">
+          <div id="download-png">PNG</div>
+          <div id="download-svg">SVG</div>
+        </div>
+      </div>
     </div>
   </div>
+  <div id="download-popup-overlay"></div>
   <div class="popup-overlay">
     <div class="popup-content">
       <span class="close-button">&times;</span>
