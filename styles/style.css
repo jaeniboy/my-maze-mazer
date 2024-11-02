@@ -76,17 +76,21 @@ body {
   font-size: 20px;
 }
 
+#size-selections > div {
+  width: 50%;
+  display: flex;
+}
+
 #size-selections > div > select {
-  /* margin-left: 1em; */
-  width: 4.5em;
+  flex-grow: 2;
 }
 
 #size-selections > div > .bi-arrows {
-  margin-right: 0.8em;
+  margin-right: 0.4em;
 }
 
 #size-selections > div > .bi-arrows-vertical {
-  margin-right: 0.4em;
+  margin: 0em 0.2em;
 }
 
 #seed-input-area {
@@ -102,7 +106,6 @@ body {
   height: 5vh;
   display: flex;
   justify-content: space-between;
-  /* justify-content: space-around; */
   margin: 0px 10px;
 }
 
@@ -136,7 +139,6 @@ body {
 }
 
 #download-popup {
-  /* display: none; */
   cursor: initial;
   position: absolute;
   bottom: 1.5em;
@@ -146,8 +148,6 @@ body {
   border-radius: 3px;
   border-width: 2px;
   border-style: solid;
-  /* width: 7em; */
-  /* height: 2em; */
   display: none;
   justify-content:space-around;
   align-items:center;
@@ -231,7 +231,6 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  /* overflow-y: auto; */
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.9);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
@@ -281,7 +280,6 @@ body {
 .popup-chart {
   width: 100%;
   height: 25vh ;
-  /* background-color: #f0f0f0; */
   margin-bottom: 20px;
   position: relative;
   flex-shrink: 0;
