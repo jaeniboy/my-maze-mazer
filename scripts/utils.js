@@ -63,7 +63,7 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
   div.id = "setup-container"
   div.innerHTML =
   `
-  <label>Size: <i class="bi bi-info-circle" id="size-info"></i></label>
+  <label>Size: <i class="bi bi-question-circle" id="size-info"></i></label>
   <div id="size-selections">
     <div>
       <i class="bi bi-arrows"></i><select type="text" id="select-dimx" name="select-x"></select>
@@ -71,7 +71,7 @@ export const renderSetupPage = (container, defaults = { x: 10, y: 10, seed: 1234
     <div>
       <i class="bi bi-arrows-vertical"></i><select type="text" id="select-dimy" name="select-y"></select></div>
     </div>
-  <label for="seed">Seed: <i class="bi bi-info-circle" id="seed-info"></i></label>
+  <label for="seed">Seed: <i class="bi bi-question-circle" id="seed-info"></i></label>
   <div id="seed-input-area">
   <input type="text" id="seed" name="seed" value="${defaults.seed}"><span id="random-seed"><i class="bi bi-arrow-clockwise"></i></span>
   </div>
